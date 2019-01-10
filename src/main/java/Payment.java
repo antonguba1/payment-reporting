@@ -1,11 +1,12 @@
 
 public class Payment {
 
-    int numberOfPayments;
-    String dueDate;
-    String actualDate;
-    double expectedAmount;
-    double actualAmount;
+
+    private String dueDate;
+    private String actualDate;
+    private int numberOfPayments;
+    private double expectedAmount;
+    private double actualAmount;
 
 
     public Payment(int expectedAmount, int numberOfPayments){

@@ -2,9 +2,9 @@
 
 public class User {
 
-    String name;
-    String email;
-    Payment payment;
+    private String name;
+    private String email;
+    private Payment payment;
 
 
 
@@ -17,6 +17,10 @@ public class User {
 
     }
 
+    public void addUser(String name, String email) {
+        User user = new User(name, email);
+
+    }
 
 
     @Override
