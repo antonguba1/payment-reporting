@@ -1,6 +1,29 @@
-
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
+
+    private List<User> listOfUsers;
+
+    int numberOfRates;
+
+    public void addUser(String name, String email) {
+        User user = new User(name, email);
+        listOfUsers.add(user);
+    }
+
+    public boolean checkIfUserExist(String email) {
+        if (listOfUsers != null) {
+
+            for (User u : listOfUsers) {
+                if (u.getEmail().contains(email)) {
+                    Loger.printInfo("This email " + email + " is busy.");
+                    return true;
+                }
+            }
+        }return false;
+    }
+
 
 
 
@@ -8,6 +31,12 @@ public class Main {
 
 
 
+        Loger.printInfo("Write your email.");
+
+
+
+
+        Scanner input = new Scanner(System.in);
 
 
 

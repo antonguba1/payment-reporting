@@ -1,9 +1,10 @@
+import java.util.Date;
 
 public class Payment {
 
 
-    private String dueDate;
-    private String actualDate;
+    private Date dueDate;
+    private Date actualDate;
     private int numberOfPayments;
     private double expectedAmount;
     private double actualAmount;
