@@ -3,13 +3,14 @@ import java.util.Scanner;
 
 public class Main {
 
+    public static int numberOfUsers=0;
     private List<User> listOfUsers;
 
-    int numberOfRates;
 
     public void addUser(String name, String email) {
         User user = new User(name, email);
         listOfUsers.add(user);
+        numberOfUsers++;
     }
 
     public boolean checkIfUserExist(String email) {
@@ -29,13 +30,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-
-
         Loger.printInfo("Write your email.");
-
-
-
-
         Scanner input = new Scanner(System.in);
 
 

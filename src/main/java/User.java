@@ -1,11 +1,11 @@
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class User {
 
     private String name;
     private String email;
-    private Payment payment;
     private List<Payment> listOfPayments;
 
 
@@ -19,14 +19,21 @@ public class User {
         return email;
     }
 
-    public String getName(){
-        return  name;
+    public String getName() {
+        return name;
     }
 
-    public void addPayment(int amount, int numberOfRates) {
+ /*   public void addPayment(int amount, int numberOfRates) {
+      for(int i=0; i<=numberOfRates;i++) {
+          listOfPayments.add
+      }
+    }*/
 
+    public void setDueDate(Date dueDate){
+        for (Payment payment : listOfPayments){
+            payment.setDueDate(dueDate);
+        }
     }
-
 
 
     @Override

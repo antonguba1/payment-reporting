@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-
+/*
 public class GeneralOperations {
 
     private List<User> listOfUsers = new ArrayList<>();
@@ -15,3 +15,4 @@ public class GeneralOperations {
     }
 
 }
+*/
