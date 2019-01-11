@@ -1,19 +1,16 @@
 import java.util.Date;
+import java.util.List;
 
 public class Payment {
 
+    Date dueDate;
+    List<Installment> listOfInstallments;
 
-    private Date dueDate;
-    private Date actualDate;
-    private int numberOfPayments;
-    private double expectedAmount;
-    private double actualAmount;
-
-
-    public Payment(int expectedAmount, int numberOfPayments){
-        this.expectedAmount = expectedAmount;
-        this.numberOfPayments = numberOfPayments;
+    public Payment(Date dueDate, List<Installment> listOfInstallments) {
+        this.dueDate = dueDate;
+        this.listOfInstallments = listOfInstallments;
     }
+
 
 
 }

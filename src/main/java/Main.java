@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
 
@@ -7,10 +6,7 @@ public class Main {
 
     int numberOfRates;
 
-    public void addUser(String name, String email) {
-        User user = new User(name, email);
-        listOfUsers.add(user);
-    }
+
 
     public boolean checkIfUserExist(String email) {
         if (listOfUsers != null) {
@@ -31,12 +27,6 @@ public class Main {
 
 
 
-        Loger.printInfo("Write your email.");
-
-
-
-
-        Scanner input = new Scanner(System.in);
 
 
 
