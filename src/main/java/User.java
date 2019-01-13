@@ -1,53 +1,20 @@
+import java.util.List;
 
 public class User {
 
-    private String name;
-    private String email;
-    private Payment payment;
+    String name;
+    String email;
+    List<Payment> userPayments;
 
 
-
-    public User(String name, String email, Payment payment) {
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
-        this.payment = payment;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public String getName(){
-        return  name;
+    public void addPayment(Payment payment) {
+        userPayments.add(payment);
     }
 
 }
-
-
-//WERSJA DODANA PRZEZ RAFAŁA
-
-/*
-public class User {
-
-    private String name;
-    private String email;
-    private Payment payment;
-
-
-
-    public User(String name, String email, Payment payment) {
-        this.name = name;
-        this.email = email;
-        this.payment = payment;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getName(){
-        return  name;
-    }
-
-}
- */

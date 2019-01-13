@@ -1,33 +1,32 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+
 
 public class Payment {
 
-    private Date dueDate;
-    private List<Installment> listOfInstallments;
-    private Installment installment;
-    private double expectedTotalAmount;
-    private double actualTotalAmount;
+    int numberOfPayments;
+    String actualDate;
+    String dueDate;
+    int expectedAmount;
+    int actualAmount;
 
-    public Payment(Date dueDate, List<Installment> listOfInstallments) {
+
+    public Payment(String dueDate, int expectedAmount,int payment, int numberOfPayments){
         this.dueDate = dueDate;
-        this.listOfInstallments = listOfInstallments;
+        this.expectedAmount = expectedAmount;
+        this.actualDate = getActualDate();
+        this.actualAmount = getActualAmount(payment);
+        this.numberOfPayments = numberOfPayments;
     }
 
-    //should has this method some parameters?
-    public double getExpectedTotalAmount() {
-        for (Installment e : listOfInstallments) {
-            expectedTotalAmount += e.getExpectedAmount();
-        }
-        return expectedTotalAmount;
+    public String getActualDate(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        return dateFormat.format(date);
     }
-
-    public double getActualTotalAmount() {
-        for (Installment e : listOfInstallments) {
-            actualTotalAmount += e.getActualAmount();
-        }
-        return actualTotalAmount;
+    public int getActualAmount(Integer payment){
+        this.actualAmount = this.expectedAmount - payment;
+        return  actualAmount;
     }
-
-
 }
