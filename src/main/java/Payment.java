@@ -21,8 +21,29 @@ public class Payment {
     public String checkPaymentStatus() {
         if (expectedAmount > actualAmount && (actualDate.after(dueDate))) {
             return status = "LATE";
-        } else if (expectedAmount <= actualAmount && ((actualDate.before(dueDate)) || ((actualDate.equals(dueDate))) {
+        } else if (expectedAmount <= actualAmount && ((actualDate.before(dueDate)) || ((actualDate.equals(dueDate))))) {
             return status = "ON TIME";
         }
+        else return status = "UNCOMPLETED";
     }
+
 }
+
+
+//WERSJA DODANA PRZEZ RAFAŁA
+/*
+import java.util.Date;
+        import java.util.List;
+
+public class Payment {
+
+    Date dueDate;
+    List<Installment> listOfInstallments;
+
+    public Payment(Date dueDate, List<Installment> listOfInstallments) {
+        this.dueDate = dueDate;
+        this.listOfInstallments = listOfInstallments;
+    }
+
+}
+*/
