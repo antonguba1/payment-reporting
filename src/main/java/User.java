@@ -21,5 +21,7 @@ public class User {
         return  name;
     }
 
-
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

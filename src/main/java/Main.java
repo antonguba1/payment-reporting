@@ -18,7 +18,7 @@ public class Main {
         CreateScheduleServis test = new CreateScheduleServis();
 
 
-        //test.getEmail();
+        test.emailValidation.validateEmail("rafal");
 
 
     }
