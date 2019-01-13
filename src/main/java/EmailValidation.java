@@ -3,6 +3,8 @@
 public class EmailValidation {
 
     public boolean validateEmail(String email) {
-        return true;
+        if (email.contains("@"))
+            return true;
+        else return false;
     }
 }
