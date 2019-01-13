@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -14,6 +15,9 @@ public class User {
 
 
     public void addPayment(Payment payment) {
+        if (userPayments == null) {
+            userPayments = new ArrayList<>();
+        }
         userPayments.add(payment);
     }
 
