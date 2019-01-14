@@ -1,25 +1,45 @@
-import java.util.ArrayList;
+package com.company;
+
+import com.company.model.Installment;
+
 import java.util.List;
 
 public class User {
 
     private String name;
     private String email;
-    private List<Payment> userPayments;
+    private List<Installment> listOfInstallments;
 
+    public User(){
 
-    public User(String name, String email) {
-        this.name = name;
-        this.email = email;
-        userPayments = new ArrayList<>();
     }
 
-
-    public void addPayment(Payment payment) {
-        userPayments.add(payment);
-    }
 
     public String getEmail() {
         return email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Installment> getListOfInstallments() {
+        return listOfInstallments;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
