@@ -11,13 +11,11 @@ public class User {
     public User(String name, String email) {
         this.name = name;
         this.email = email;
+        userPayments = new ArrayList<>();
     }
 
 
     public void addPayment(Payment payment) {
-        if (userPayments == null) {
-            userPayments = new ArrayList<>();
-        }
         userPayments.add(payment);
     }
 
