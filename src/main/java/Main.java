@@ -22,19 +22,25 @@ public class Main {
             }else{
                 InformationServis.printGeneralInfo("Write name: ");
                 String name = input.next();
+
                 User u = new User(name,email);
                 generalOperations.addUser(u);
                 //stosuje json jako backup
                 obj.addUserObjectToJson(name,email);
                 // dodać payment dla użytkownika
+
                 InformationServis.printGeneralInfo("Write due date: ");
                 String dueDate = input.next();
+
                 InformationServis.printGeneralInfo("Write expected amount: ");
                 int expectedAmount = input.nextInt();
+
                 InformationServis.printGeneralInfo("Write payment: ");
                 int payme = input.nextInt();
+
                 InformationServis.printGeneralInfo("Write number of payments: ");
                 int numberOfPayments = input.nextInt();
+
                 Payment payment = new Payment(dueDate,expectedAmount,payme,numberOfPayments);
                 u.addPayment(payment);
                 obj.addPaymentObjectToJson(email,dueDate,expectedAmount,payment.getActualDate(),payment.getActualAmount(payme),numberOfPayments);

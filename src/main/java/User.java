@@ -3,9 +3,9 @@ import java.util.List;
 
 public class User {
 
-    String name;
-    String email;
-    List<Payment> userPayments;
+    private String name;
+    private String email;
+    private List<Payment> userPayments;
 
 
     public User(String name, String email) {
@@ -19,4 +19,7 @@ public class User {
         userPayments.add(payment);
     }
 
+    public String getEmail() {
+        return email;
+    }
 }

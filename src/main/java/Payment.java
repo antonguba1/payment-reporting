@@ -6,8 +6,8 @@ import java.util.Date;
 public class Payment {
 
     int numberOfPayments;
-    String actualDate;
-    String dueDate;
+    private String actualDate;
+    private String dueDate;
     int expectedAmount;
     int actualAmount;
 

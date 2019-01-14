@@ -3,7 +3,7 @@ import java.util.List;
 
 public class GeneralOperations {
 
-    List<User> listOfUsers = new ArrayList<>();
+    private List<User> listOfUsers = new ArrayList<>();
 
     public void addUser(User user) {
         listOfUsers.add(user);
@@ -12,7 +12,7 @@ public class GeneralOperations {
     public boolean checkUserEmail(String email) {
         for (User u : listOfUsers
         ) {
-            if (u.email.contains(email)) {
+            if (u.getEmail().contains(email)) {
                 return true;
             }
         }
