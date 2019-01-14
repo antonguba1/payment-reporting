@@ -14,5 +14,4 @@ public class Payment {
         this.numberOfPayments = numberOfPayments;
     }
 
-
 }
