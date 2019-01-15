@@ -1,4 +1,4 @@
-package com.company.utility;
+package com.utility;
 
 import java.sql.Date;
 import java.text.ParseException;

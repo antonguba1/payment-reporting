@@ -1,6 +1,6 @@
-package com.company;
+package com.model;
 
-import com.company.model.Installment;
+import com.model.Installment;
 
 import java.util.List;
 

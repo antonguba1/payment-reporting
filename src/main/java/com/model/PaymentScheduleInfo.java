@@ -1,8 +1,10 @@
-package com.company.model;
+package com.model;
+
+import java.util.Date;
 
 public class PaymentScheduleInfo {
 
-    String firstDueDate;
+    private Date firstDueDate;
     private int numberOfInstallments;
     private double installmentAmount;
 
@@ -10,7 +12,7 @@ public class PaymentScheduleInfo {
 
     }
 
-    public void setFirstDueDate(String firstDueDate) {
+    public void setFirstDueDate(Date firstDueDate) {
         this.firstDueDate = firstDueDate;
     }
 
@@ -26,11 +28,20 @@ public class PaymentScheduleInfo {
         return numberOfInstallments;
     }
 
-    public String getFirstDueDate() {
+    public Date getFirstDueDate() {
         return firstDueDate;
     }
 
     public double getInstallmentAmount() {
         return installmentAmount;
+    }
+
+    @Override
+    public String toString() {
+        return "PaymentScheduleInfo{" +
+                "firstDueDate=" + firstDueDate +
+                ", numberOfInstallments=" + numberOfInstallments +
+                ", installmentAmount=" + installmentAmount +
+                '}';
     }
 }

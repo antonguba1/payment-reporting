@@ -1,4 +1,4 @@
-package com.company.model;
+package com.model;
 
 
 public class Installment {
