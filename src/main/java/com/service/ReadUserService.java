@@ -20,7 +20,7 @@ public class ReadUserService {
         System.out.println("Enter your following data:");
 
         do {
-            System.out.println("Enter your email:");
+            System.out.println("\nEnter your email:");
             email = scanner.nextLine();
         }while(!emailValidation.validateEmail(email));
 
