@@ -1,9 +1,11 @@
 package com.model;
 
 
+import java.util.Date;
+
 public class Installment {
 
-    private String dueDate;
+    private Date dueDate;
     private double expectedAmount;
     private double actualAmount;
 
@@ -11,11 +13,11 @@ public class Installment {
 
     }
 
-    public String getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -31,5 +33,12 @@ public class Installment {
         this.expectedAmount = expectedAmount;
     }
 
-
+    @Override
+    public String toString() {
+        return "Installment{" +
+                "dueDate='" + dueDate + '\'' +
+                ", expectedAmount=" + expectedAmount +
+                ", actualAmount=" + actualAmount +
+                '}';
+    }
 }

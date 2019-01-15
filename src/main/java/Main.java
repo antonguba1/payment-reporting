@@ -1,6 +1,15 @@
+import com.service.CreateScheduleService;
+
 public class Main {
 
+
     public static void main(String[] args) {
-        // write your code here
+
+
+        CreateScheduleService test = new CreateScheduleService();
+
+        test.createSchedule();
+
+
     }
 }

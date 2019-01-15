@@ -8,7 +8,7 @@ public class User {
 
     private String name;
     private String email;
-    private List<Installment> listOfInstallments;
+    private PaymentSchedule paymentSchedule;
 
     public User(){
 
@@ -23,8 +23,12 @@ public class User {
         return name;
     }
 
-    public List<Installment> getListOfInstallments() {
-        return listOfInstallments;
+    public PaymentSchedule getPaymentSchedule() {
+        return paymentSchedule;
+    }
+
+    public void setPaymentSchedule(PaymentSchedule paymentSchedule) {
+        this.paymentSchedule = paymentSchedule;
     }
 
     public void setName(String name) {
@@ -35,11 +39,18 @@ public class User {
         this.email = email;
     }
 
+    public void printInstallments() {
+        for (Installment e : paymentSchedule.getInstallmentList()) {
+            System.out.println(e);
+        }
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", paymentSchedule=" + paymentSchedule +
                 '}';
     }
 }
