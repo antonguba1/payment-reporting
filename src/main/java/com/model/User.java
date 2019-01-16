@@ -1,8 +1,7 @@
 package com.model;
 
-import com.model.Installment;
+import com.utility.Loger;
 
-import java.util.List;
 
 public class User {
 
@@ -13,7 +12,6 @@ public class User {
     public User(){
 
     }
-
 
     public String getEmail() {
         return email;
@@ -41,7 +39,7 @@ public class User {
 
     public void printInstallments() {
         for (Installment e : paymentSchedule.getInstallmentList()) {
-            System.out.println(e);
+            Loger.printInfo(e.toString());
         }
     }
 

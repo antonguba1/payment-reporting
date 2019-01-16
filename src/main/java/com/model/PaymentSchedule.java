@@ -19,4 +19,22 @@ public class PaymentSchedule {
     public PaymentScheduleInfo getPaymentScheduleInfo() {
         return paymentScheduleInfo;
     }
+
+    public double getExpectedTotalAmount() {
+        double sum = 0;
+
+        for (Installment installment : installmentList) {
+            sum += installment.getExpectedAmount();
+        }
+        return sum;
+    }
+
+    public double getActualTotalAmount() {
+        double sum = 0;
+
+        for (Installment installment : installmentList) {
+            sum += installment.getActualAmount();
+        }
+        return sum;
+    }
 }
