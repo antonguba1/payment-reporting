@@ -25,9 +25,5 @@ public class DateUtility {
     public static Date incrementMonth(Date date) {
         return DateUtils.addMonths(date, 1);
     }
-/*
-    public static Date toDate(String date) {
 
-        return new Date(truncatedDate.getTime());
-}*/
 }

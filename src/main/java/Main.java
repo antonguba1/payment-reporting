@@ -1,6 +1,8 @@
 import com.model.User;
 import com.service.CreateScheduleService;
-import com.service.ExcelService;
+import com.service.WriteExcelService;
+import com.service.WriteSchedulesToExcel;
+
 
 import java.io.IOException;
 
@@ -15,9 +17,10 @@ public class Main {
 
         User user = createScheduleService.createSchedule();
 
-        ExcelService test = new ExcelService();
+        WriteSchedulesToExcel test = new WriteSchedulesToExcel();
 
-        test.saveUserToExcel(user);
+        test.saveScheduleToExcel(user);
+
 
 
     }

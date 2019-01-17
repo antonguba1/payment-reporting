@@ -38,6 +38,7 @@ public class User {
     }
 
     public void printInstallments() {
+
         for (Installment e : paymentSchedule.getInstallmentList()) {
             Loger.printInfo(e.toString());
         }

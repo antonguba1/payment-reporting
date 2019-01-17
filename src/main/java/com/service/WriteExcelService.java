@@ -9,14 +9,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-public class ExcelService {
+public class WriteExcelService {
 
     private static String[] userColumns = {"Name", "E-mail", "Actual total amount", "Expected total amount"};
     private static String[] installmentColumns = {"Due date", "", "Actual amount", "Expected amount"};
 
     public void saveUserToExcel(User user) throws IOException {
         Workbook workbook = new XSSFWorkbook();
-        CreationHelper createHelper = workbook.getCreationHelper();
         Sheet sheet = workbook.createSheet("User");
         String fileName = user.getName() + "_payment_schedule.xlsx";
 

@@ -11,7 +11,7 @@ import java.util.List;
 public class InstallmentService {
 
     public List<Installment> generateInstallments(PaymentScheduleInfo paymentScheduleInfo) {
-        List listOfInstallments = new ArrayList();
+        List<Installment> listOfInstallments = new ArrayList<>();
 
         Date dueDate = paymentScheduleInfo.getFirstDueDate();
         int numberOfInstallments = paymentScheduleInfo.getNumberOfInstallments();
