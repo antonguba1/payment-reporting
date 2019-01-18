@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-public class WriteExcelService {
+public class WriteUserToExcelService {
 
     private static String[] userColumns = {"Name", "E-mail", "Actual total amount", "Expected total amount"};
     private static String[] installmentColumns = {"Due date", "", "Actual amount", "Expected amount"};

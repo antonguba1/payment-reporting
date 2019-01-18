@@ -7,9 +7,7 @@ public class PaymentSchedule {
     private PaymentScheduleInfo paymentScheduleInfo;
     private List<Installment> installmentList;
 
-    public PaymentSchedule() {
 
-    }
 
     public PaymentSchedule(PaymentScheduleInfo paymentScheduleInfo, List<Installment> installmentList) {
         this.paymentScheduleInfo = paymentScheduleInfo;
