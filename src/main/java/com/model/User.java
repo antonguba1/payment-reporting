@@ -1,5 +1,6 @@
 package com.model;
 
+import com.service.ReadUserService;
 import com.utility.Loger;
 
 
@@ -8,6 +9,7 @@ public class User {
     private String name;
     private String email;
     private PaymentSchedule paymentSchedule;
+
 
     public User(){
 

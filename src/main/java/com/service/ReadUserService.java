@@ -10,6 +10,10 @@ public class ReadUserService {
 
     private EmailValidation emailValidation = new EmailValidation();
 
+    public ReadUserService() {
+
+    }
+
     public User createUser() {
         ScannerUtility scannerUtility = new ScannerUtility();
         User user = new User();

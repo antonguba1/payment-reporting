@@ -8,11 +8,11 @@ public class PaymentSchedule {
     private List<Installment> installmentList;
 
 
-
     public PaymentSchedule(PaymentScheduleInfo paymentScheduleInfo, List<Installment> installmentList) {
         this.paymentScheduleInfo = paymentScheduleInfo;
         this.installmentList = installmentList;
     }
+
 
     public List<Installment> getInstallmentList() {
         return installmentList;

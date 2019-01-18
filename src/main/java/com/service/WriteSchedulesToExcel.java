@@ -9,38 +9,23 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class WriteSchedulesToExcel {
 
     private static String[] generalHeader = {"Name", "E-mail", "Actual total amount", "Expected total amount"};
 
-
-    private String[] createDynamicHeader(PaymentScheduleInfo paymentScheduleInfo) {
-
-
-
-        int j = paymentScheduleInfo.getNumberOfInstallments();
-        String[] paymentHeader = new String[4 * j];
-        int a = 1;
-        for (int i = 0; i < j; i = i + 4) {
-            paymentHeader[i] = "Due date " + Integer.toString(a);
-            paymentHeader[i + 1] = "Expected amount " + Integer.toString(a);
-            paymentHeader[i + 2] = "Actual date " + Integer.toString(a);
-            paymentHeader[i + 3] = "Actual amount " + Integer.toString(a);
-            a = a + 1;
-        }
-        return paymentHeader;
-    }
-
-
     public void saveScheduleToExcel(User user) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("User");
         String fileName = user.getName() + "_payment_schedule.xlsx";
 
+
+
         addGeneralHeader(workbook, sheet);
-        addInstallmentPart(workbook, sheet, user);
+        addInstallmentHeader(workbook, sheet, user);
+        addUserPart(workbook, sheet, user);
 
         for (int i = 0; i < generalHeader.length; i++) {
             sheet.autoSizeColumn(i);
@@ -72,7 +57,7 @@ public class WriteSchedulesToExcel {
         }
 
     }
-    private void addInstallmentPart(Workbook workbook, Sheet sheet, User user) {
+    private void addInstallmentHeader(Workbook workbook, Sheet sheet, User user) {
         Font headerInstallmentFont = workbook.createFont();
         headerInstallmentFont.setBold(true);
         headerInstallmentFont.setFontHeightInPoints((short) 14);
@@ -100,7 +85,35 @@ public class WriteSchedulesToExcel {
             cell.setCellValue(paymentHeader[i]);
             cell.setCellStyle(headerInstallmentCellStyle);
         }
-
     }
 
+    private void addUserPart(Workbook workbook, Sheet sheet, User user) {
+        Font headerInstallmentFont = workbook.createFont();
+        headerInstallmentFont.setBold(true);
+        headerInstallmentFont.setFontHeightInPoints((short) 14);
+        headerInstallmentFont.setColor(IndexedColors.RED.getIndex());
+
+        CellStyle headerInstallmentCellStyle = workbook.createCellStyle();
+        headerInstallmentCellStyle.setFont(headerInstallmentFont);
+
+
+
+        Row userRow = sheet.createRow(1);
+
+        userRow.createCell(0)
+                .setCellValue(user.getName());
+        userRow.createCell(1)
+                .setCellValue(user.getEmail());
+     }
+
+     private boolean isCellEmpty(Sheet sheet) {
+
+        Row userRow = sheet.getRow(0);
+        for (int i = 0; i < userRow.getLastCellNum(); i++) {
+            if (!userRow.getCell(i).getBooleanCellValue()) {
+                userRow.createCell(i);
+            }
+        }return true;
+     }
 }
+

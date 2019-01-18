@@ -1,6 +1,7 @@
 package com.service;
 
 import com.model.*;
+import com.utility.ScannerUtility;
 
 import java.util.List;
 
@@ -10,7 +11,6 @@ public class CreateScheduleService {
     private ReadUserService readUserService = new ReadUserService();
     private ReadScheduleService readScheduleService = new ReadScheduleService();
     private InstallmentService installmentService = new InstallmentService();
-
 
     public User createSchedule() {
 
@@ -24,6 +24,4 @@ public class CreateScheduleService {
 
         return user;
     }
-
-
 }

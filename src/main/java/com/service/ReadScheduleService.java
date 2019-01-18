@@ -1,13 +1,12 @@
 package com.service;
 
-
 import com.model.PaymentScheduleInfo;
 import com.utility.DateUtility;
 import com.utility.Loger;
 import com.utility.ScannerUtility;
 
-
 import static com.utility.Loger.printInfo;
+
 
 public class ReadScheduleService {
 
