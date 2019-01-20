@@ -1,18 +1,19 @@
 package com.service;
 
+import com.model.Installment;
 import com.model.User;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 ;
 import java.io.*;
+import java.util.List;
 
 
 public class GenerateScheduleService {
 
     private static String[] generalHeader = {"Name", "E-mail", "Actual total amount", "Expected total amount"};
-
+    private static final String fileName = "Payment_schedule.xlsx";
 
     //Creating many users in one schedule.
 
@@ -24,12 +25,10 @@ public class GenerateScheduleService {
         } catch (FileNotFoundException e) {
             Workbook workbook = new XSSFWorkbook();
             sheet = workbook.createSheet("User");
-            String fileName = "Payment_schedule.xlsx";
-
+            //String fileName = "Payment_schedule.xlsx";
 
             addGeneralHeader(workbook, sheet);
             addInstallmentHeader(workbook, sheet, user);
-            //addUserData(workbook, sheet, user);
 
             for (int i = 0; i < generalHeader.length; i++) {
                 sheet.autoSizeColumn(i);
@@ -43,7 +42,7 @@ public class GenerateScheduleService {
             workbook.close();
         }
 
-        InputStream inp = new FileInputStream("Payment_schedule.xlsx");
+        InputStream inp = new FileInputStream(fileName);
 
         Workbook workbook = WorkbookFactory.create(inp);
         sheet = workbook.getSheet("User");
@@ -51,12 +50,15 @@ public class GenerateScheduleService {
         Cell cell = row.createCell(0);
 
         addUserData(workbook, sheet, user);
+        addInstallmentHeader(workbook, sheet, user);
+        addInstallmentData(workbook, sheet, user.getPaymentSchedule().getInstallmentList());
 
-// Write the output to a file
-        FileOutputStream fileOut = new FileOutputStream("Payment_schedule.xlsx");
+        // Write the output to a file
+        FileOutputStream fileOut = new FileOutputStream(fileName);
         workbook.write(fileOut);
         fileOut.close();
     }
+
     private void addGeneralHeader(Workbook workbook, Sheet sheet) {
         Row headerRow = sheet.createRow(0);
 
@@ -91,6 +93,55 @@ public class GenerateScheduleService {
         }
     }
 
+    private void addUserData(Workbook workbook, Sheet sheet, User user) {
+        headerSetup(workbook);
+
+        Row row = sheet.createRow(getFirstEmptyRow(sheet));
+
+        row.createCell(0)
+                .setCellValue(user.getName());
+        row.createCell(1)
+                .setCellValue(user.getEmail());
+        row.createCell(2)
+                .setCellValue(user.getPaymentSchedule().getActualTotalAmount());
+        row.createCell(3)
+                .setCellValue(user.getPaymentSchedule().getExpectedTotalAmount());
+
+    }
+
+    private void addInstallmentData(Workbook workbook, Sheet sheet, List<Installment> installmentList) {
+        headerSetup(workbook);
+
+        Row row = sheet.createRow(getFirstEmptyRow(sheet));
+        for (int i = 0; i < installmentList.size(); i++) {
+            int a = 4;
+            for (Installment installment : installmentList) {
+                row.createCell(a)
+                        .setCellValue(installment.getDueDate().toString());
+                row.createCell(a + 1)
+                        .setCellValue(installment.getExpectedAmount());
+                row.createCell(a + 2)
+                        .setCellValue("here actual date");
+                row.createCell(a + 3)
+                        .setCellValue(installment.getActualAmount());
+                a += 4;
+            }
+        }
+    }
+
+
+    private int getFirstEmptyRow(Sheet sheet) {
+
+        for (int a = 1; a <= sheet.getLastRowNum(); a++) {
+            Cell cell = sheet.getRow(a).getCell(a);
+            if (cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK) {
+                return a;
+            }
+        }
+        return 5;
+    }
+
+
     private CellStyle headerSetup(Workbook workbook) {
         Font headerFont = workbook.createFont();
         headerFont.setBold(true);
@@ -102,32 +153,6 @@ public class GenerateScheduleService {
 
         return headerCellStyle;
     }
-
-    private void addUserData(Workbook workbook, Sheet sheet, User user) {
-       headerSetup(workbook);
-       Row userRow = sheet.createRow(1);
-
-       userRow.createCell(0)
-               .setCellValue(user.getName());
-       userRow.createCell(1)
-               .setCellValue(user.getEmail());
-    }
-
-    private boolean checkIsRowEmpty(Row row) {
-        if (row == null) {
-            return true;
-        }
-        if (row.getLastCellNum() <= 0) {
-            return true;
-        }
-        for (int cellNum = row.getFirstCellNum(); cellNum < row.getLastCellNum(); cellNum++) {
-            Cell cell = row.getCell(cellNum);
-            if (cell != null && cell.getCellTypeEnum() != CellType.BLANK && StringUtils.isNotBlank(cell.toString())) {
-                return false;
-            }
-        }
-        return true;
-     }
 
 }
 

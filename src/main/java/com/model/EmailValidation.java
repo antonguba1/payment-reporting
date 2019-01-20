@@ -25,7 +25,7 @@ public class EmailValidation {
 
     //skakać rząd > komórka
     public void existEmail() throws IOException, InvalidFormatException {
-        Workbook workbook = WorkbookFactory.create(new File("Rafal_payment_schedule.xlsx"));
+        Workbook workbook = WorkbookFactory.create(new File("Payment_schedule.xlsx"));
         Iterator<Sheet> sheetIterator = workbook.sheetIterator();
         Sheet sheet = sheetIterator.next();
 
