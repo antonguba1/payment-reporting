@@ -6,10 +6,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 ;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 
 public class GenerateScheduleService {
@@ -20,17 +17,19 @@ public class GenerateScheduleService {
     //Creating many users in one schedule.
 
     public void generateSchedule(User user) throws IOException, InvalidFormatException {
-        Workbook workbook;
 
+        Sheet sheet;
         try {
-            workbook = WorkbookFactory.create(new File("Payment_schedule.xlsx"));
+            Workbook workbook = WorkbookFactory.create(new File("Payment_schedule.xlsx"));
         } catch (FileNotFoundException e) {
-            workbook = new XSSFWorkbook();
-            Sheet sheet = workbook.createSheet("User");
+            Workbook workbook = new XSSFWorkbook();
+            sheet = workbook.createSheet("User");
             String fileName = "Payment_schedule.xlsx";
+
 
             addGeneralHeader(workbook, sheet);
             addInstallmentHeader(workbook, sheet, user);
+            //addUserData(workbook, sheet, user);
 
             for (int i = 0; i < generalHeader.length; i++) {
                 sheet.autoSizeColumn(i);
@@ -43,6 +42,20 @@ public class GenerateScheduleService {
             // Closing the workbook
             workbook.close();
         }
+
+        InputStream inp = new FileInputStream("Payment_schedule.xlsx");
+
+        Workbook workbook = WorkbookFactory.create(inp);
+        sheet = workbook.getSheet("User");
+        Row row = sheet.createRow(1);
+        Cell cell = row.createCell(0);
+
+        addUserData(workbook, sheet, user);
+
+// Write the output to a file
+        FileOutputStream fileOut = new FileOutputStream("Payment_schedule.xlsx");
+        workbook.write(fileOut);
+        fileOut.close();
     }
     private void addGeneralHeader(Workbook workbook, Sheet sheet) {
         Row headerRow = sheet.createRow(0);
@@ -74,6 +87,7 @@ public class GenerateScheduleService {
             Cell cell = headerRow.createCell(i + 4);
             cell.setCellValue(paymentHeader[i]);
             cell.setCellStyle(headerSetup(workbook));
+            sheet.autoSizeColumn(i);
         }
     }
 
@@ -91,7 +105,7 @@ public class GenerateScheduleService {
 
     private void addUserData(Workbook workbook, Sheet sheet, User user) {
        headerSetup(workbook);
-       Row userRow = sheet.getRow(0);
+       Row userRow = sheet.createRow(1);
 
        userRow.createCell(0)
                .setCellValue(user.getName());
