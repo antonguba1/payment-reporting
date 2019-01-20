@@ -1,7 +1,7 @@
 import com.model.User;
 import com.service.CreateScheduleService;
-import com.service.ReadUserService;
-import com.service.WriteSchedulesToExcel;
+import com.service.GenerateScheduleService;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 
 import java.io.IOException;
@@ -9,16 +9,16 @@ import java.io.IOException;
 public class Main {
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InvalidFormatException {
 
 
         CreateScheduleService createScheduleService = new CreateScheduleService();
 
         User user = createScheduleService.createSchedule();
 
-        WriteSchedulesToExcel test = new WriteSchedulesToExcel();
+        GenerateScheduleService test = new GenerateScheduleService();
 
-        test.saveScheduleToExcel(user);
+        test.generateSchedule(user);
 
 
 

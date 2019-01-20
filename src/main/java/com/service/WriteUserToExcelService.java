@@ -14,6 +14,9 @@ public class WriteUserToExcelService {
     private static String[] userColumns = {"Name", "E-mail", "Actual total amount", "Expected total amount"};
     private static String[] installmentColumns = {"Due date", "", "Actual amount", "Expected amount"};
 
+
+    //Creating schedule for one user.
+
     public void saveUserToExcel(User user) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("User");
