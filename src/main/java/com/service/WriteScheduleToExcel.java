@@ -12,22 +12,24 @@ import java.util.List;
 
 public class WriteScheduleToExcel extends ExcelService {
 
-    private static String[] generalHeader = {"Name", "E-mail", "Actual total amount", "Expected total amount"};
     private static final String fileName = "Payment_schedule.xlsx";
+    private static final String[] generalHeader = {"Name", "E-mail", "Actual total amount", "Expected total amount"};
 
     //Creating many users in one schedule.
     public void generateSchedule(User user) throws IOException, InvalidFormatException {
-
         Sheet sheet;
+
         try {
             Workbook workbook = WorkbookFactory.create(new File("Payment_schedule.xlsx"));
         } catch (FileNotFoundException e) {
             Workbook workbook = new XSSFWorkbook();
             sheet = workbook.createSheet("User");
-            //String fileName = "Payment_schedule.xlsx";
 
             addGeneralHeader(workbook, sheet);
             addInstallmentHeader(workbook, sheet, user);
+            addUserData(workbook, sheet, user);
+            addInstallmentData(workbook, sheet, user.getPaymentSchedule().getInstallmentList());
+
 
             for (int i = 0; i < generalHeader.length; i++) {
                 sheet.autoSizeColumn(i);
@@ -42,17 +44,16 @@ public class WriteScheduleToExcel extends ExcelService {
         }
 
         InputStream inp = new FileInputStream(fileName);
-
         Workbook workbook = WorkbookFactory.create(inp);
+
         sheet = workbook.getSheet("User");
         Row row = sheet.createRow(1);
         Cell cell = row.createCell(0);
 
-        addUserData(workbook, sheet, user);
         addInstallmentHeader(workbook, sheet, user);
+        addUserData(workbook, sheet, user);
         addInstallmentData(workbook, sheet, user.getPaymentSchedule().getInstallmentList());
 
-        // Write the output to a file
         FileOutputStream fileOut = new FileOutputStream(fileName);
         workbook.write(fileOut);
         fileOut.close();
@@ -95,7 +96,7 @@ public class WriteScheduleToExcel extends ExcelService {
     private void addUserData(Workbook workbook, Sheet sheet, User user) {
         headerSetup(workbook);
 
-        Row row = sheet.createRow(getFirstEmptyRow(sheet));
+        Row row = sheet.createRow(sheet.getLastRowNum() + 1);
 
         row.createCell(0)
                 .setCellValue(user.getName());
@@ -111,7 +112,7 @@ public class WriteScheduleToExcel extends ExcelService {
     private void addInstallmentData(Workbook workbook, Sheet sheet, List<Installment> installmentList) {
         headerSetup(workbook);
 
-        Row row = sheet.createRow(getFirstEmptyRow(sheet));
+        Row row = sheet.getRow((sheet.getLastRowNum()));
         for (int i = 0; i < installmentList.size(); i++) {
             int a = 4;
             for (Installment installment : installmentList) {
@@ -126,18 +127,6 @@ public class WriteScheduleToExcel extends ExcelService {
                 a += 4;
             }
         }
-    }
-
-
-    private int getFirstEmptyRow(Sheet sheet) {
-
-        for (int a = 1; a <= sheet.getLastRowNum(); a++) {
-            Cell cell = sheet.getRow(a).getCell(a);
-            if (cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK) {
-                return a;
-            }
-        }
-        return 5;
     }
 
 }

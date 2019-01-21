@@ -19,8 +19,7 @@ public class Main {
 
         WriteScheduleToExcel test = new WriteScheduleToExcel();
 
-        WriteUserToExcelService t = new WriteUserToExcelService();
-        t.saveUserToExcel(user);
+        test.generateSchedule(user);
 
 
 
