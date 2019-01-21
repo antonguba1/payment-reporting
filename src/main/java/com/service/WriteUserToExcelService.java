@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-public class WriteUserToExcelService {
+public class WriteUserToExcelService extends ExcelService{
 
     private static String[] userColumns = {"Name", "E-mail", "Actual total amount", "Expected total amount"};
     private static String[] installmentColumns = {"Due date", "", "Actual amount", "Expected amount"};
@@ -38,20 +38,14 @@ public class WriteUserToExcelService {
     }
 
     private void addUserPart(Workbook workbook, Sheet sheet, User user) {
-        Font headerUserFont = workbook.createFont();
-        headerUserFont.setBold(true);
-        headerUserFont.setFontHeightInPoints((short) 14);
-        headerUserFont.setColor(IndexedColors.RED.getIndex());
-
-        CellStyle headerUserCellStyle = workbook.createCellStyle();
-        headerUserCellStyle.setFont(headerUserFont);
+        headerSetup(workbook);
 
         Row headerRow = sheet.createRow(0);
 
         for(int i = 0; i < userColumns.length; i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(userColumns[i]);
-            cell.setCellStyle(headerUserCellStyle);
+            cell.setCellStyle(headerSetup(workbook));
         }
 
         Row row = sheet.createRow(1);
@@ -70,20 +64,14 @@ public class WriteUserToExcelService {
     }
 
     private void addInstallmentPart(Workbook workbook, Sheet sheet, List<Installment> installmentList) {
-        Font headerInstallmentFont = workbook.createFont();
-        headerInstallmentFont.setBold(true);
-        headerInstallmentFont.setFontHeightInPoints((short) 14);
-        headerInstallmentFont.setColor(IndexedColors.RED.getIndex());
-
-        CellStyle headerInstallmentCellStyle = workbook.createCellStyle();
-        headerInstallmentCellStyle.setFont(headerInstallmentFont);
+        headerSetup(workbook);
 
         Row headerRow = sheet.createRow(4);
 
         for(int i = 0; i < installmentColumns.length; i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(installmentColumns[i]);
-            cell.setCellStyle(headerInstallmentCellStyle);
+            cell.setCellStyle(headerSetup(workbook));
         }
 
         int rowNum = 5;

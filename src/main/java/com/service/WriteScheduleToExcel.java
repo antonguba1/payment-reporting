@@ -10,13 +10,12 @@ import java.io.*;
 import java.util.List;
 
 
-public class GenerateScheduleService {
+public class WriteScheduleToExcel extends ExcelService {
 
     private static String[] generalHeader = {"Name", "E-mail", "Actual total amount", "Expected total amount"};
     private static final String fileName = "Payment_schedule.xlsx";
 
     //Creating many users in one schedule.
-
     public void generateSchedule(User user) throws IOException, InvalidFormatException {
 
         Sheet sheet;
@@ -139,19 +138,6 @@ public class GenerateScheduleService {
             }
         }
         return 5;
-    }
-
-
-    private CellStyle headerSetup(Workbook workbook) {
-        Font headerFont = workbook.createFont();
-        headerFont.setBold(true);
-        headerFont.setFontHeightInPoints((short) 14);
-        headerFont.setColor(IndexedColors.RED.getIndex());
-
-        CellStyle headerCellStyle = workbook.createCellStyle();
-        headerCellStyle.setFont(headerFont);
-
-        return headerCellStyle;
     }
 
 }
