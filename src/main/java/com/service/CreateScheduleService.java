@@ -2,7 +2,9 @@ package com.service;
 
 import com.model.*;
 import com.utility.ScannerUtility;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -12,7 +14,7 @@ public class CreateScheduleService {
     private ReadScheduleService readScheduleService = new ReadScheduleService();
     private InstallmentService installmentService = new InstallmentService();
 
-    public User createSchedule() {
+    public User createSchedule() throws IOException, InvalidFormatException {
 
         User user = readUserService.createUser();
         PaymentScheduleInfo paymentScheduleInfo = readScheduleService.createPaymentScheduleInfo();

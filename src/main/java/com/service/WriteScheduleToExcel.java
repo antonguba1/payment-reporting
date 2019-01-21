@@ -7,6 +7,9 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 ;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 
@@ -19,17 +22,26 @@ public class WriteScheduleToExcel extends ExcelService {
     public void generateSchedule(User user) throws IOException, InvalidFormatException {
         Sheet sheet;
 
-        try {
-            Workbook workbook = WorkbookFactory.create(new File("Payment_schedule.xlsx"));
-        } catch (FileNotFoundException e) {
+        Path path = Paths.get("/Users/spazzola/payment-reporting/Payment_schedule.xlsx");
+
+        if (Files.exists(path)) {
+            InputStream inp = new FileInputStream(fileName);
+            Workbook workbook = WorkbookFactory.create(inp);
+
+            sheet = workbook.getSheet("User");
+
+            addDatas(workbook, sheet, user);
+
+            FileOutputStream fileOut = new FileOutputStream(fileName);
+            workbook.write(fileOut);
+            fileOut.close();
+        }
+
+        if (Files.notExists(path)) {
             Workbook workbook = new XSSFWorkbook();
             sheet = workbook.createSheet("User");
 
-            addGeneralHeader(workbook, sheet);
-            addInstallmentHeader(workbook, sheet, user);
-            addUserData(workbook, sheet, user);
-            addInstallmentData(workbook, sheet, user.getPaymentSchedule().getInstallmentList());
-
+            addDatas(workbook, sheet, user);
 
             for (int i = 0; i < generalHeader.length; i++) {
                 sheet.autoSizeColumn(i);
@@ -42,21 +54,6 @@ public class WriteScheduleToExcel extends ExcelService {
             // Closing the workbook
             workbook.close();
         }
-
-        InputStream inp = new FileInputStream(fileName);
-        Workbook workbook = WorkbookFactory.create(inp);
-
-        sheet = workbook.getSheet("User");
-        Row row = sheet.createRow(1);
-        Cell cell = row.createCell(0);
-
-        addInstallmentHeader(workbook, sheet, user);
-        addUserData(workbook, sheet, user);
-        addInstallmentData(workbook, sheet, user.getPaymentSchedule().getInstallmentList());
-
-        FileOutputStream fileOut = new FileOutputStream(fileName);
-        workbook.write(fileOut);
-        fileOut.close();
     }
 
     private void addGeneralHeader(Workbook workbook, Sheet sheet) {
@@ -129,5 +126,11 @@ public class WriteScheduleToExcel extends ExcelService {
         }
     }
 
+    private void addDatas(Workbook workbook, Sheet sheet, User user) {
+        addGeneralHeader(workbook, sheet);
+        addInstallmentHeader(workbook, sheet, user);
+        addUserData(workbook, sheet, user);
+        addInstallmentData(workbook, sheet, user.getPaymentSchedule().getInstallmentList());
+    }
 }
 
