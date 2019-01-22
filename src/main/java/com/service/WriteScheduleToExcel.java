@@ -5,7 +5,6 @@ import com.model.User;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,7 +21,8 @@ public class WriteScheduleToExcel extends ExcelService {
     public void generateSchedule(User user) throws IOException, InvalidFormatException {
         Sheet sheet;
 
-        Path path = Paths.get("/Users/spazzola/payment-reporting/Payment_schedule.xlsx");
+        //Check path before running the program -> ExcelService class.
+        Path path = Paths.get(filePath);
 
         if (Files.exists(path)) {
             InputStream inp = new FileInputStream(fileName);
@@ -30,18 +30,17 @@ public class WriteScheduleToExcel extends ExcelService {
 
             sheet = workbook.getSheet("User");
 
-            addDatas(workbook, sheet, user);
+            addStaff(workbook, sheet, user);
 
             FileOutputStream fileOut = new FileOutputStream(fileName);
             workbook.write(fileOut);
             fileOut.close();
-        }
 
-        if (Files.notExists(path)) {
+        } else {
             Workbook workbook = new XSSFWorkbook();
             sheet = workbook.createSheet("User");
 
-            addDatas(workbook, sheet, user);
+            addStaff(workbook, sheet, user);
 
             for (int i = 0; i < generalHeader.length; i++) {
                 sheet.autoSizeColumn(i);
@@ -97,10 +96,13 @@ public class WriteScheduleToExcel extends ExcelService {
 
         row.createCell(0)
                 .setCellValue(user.getName());
+
         row.createCell(1)
                 .setCellValue(user.getEmail());
+
         row.createCell(2)
                 .setCellValue(user.getPaymentSchedule().getActualTotalAmount());
+
         row.createCell(3)
                 .setCellValue(user.getPaymentSchedule().getExpectedTotalAmount());
 
@@ -115,10 +117,13 @@ public class WriteScheduleToExcel extends ExcelService {
             for (Installment installment : installmentList) {
                 row.createCell(a)
                         .setCellValue(installment.getDueDate().toString());
+
                 row.createCell(a + 1)
                         .setCellValue(installment.getExpectedAmount());
+
                 row.createCell(a + 2)
                         .setCellValue("here actual date");
+
                 row.createCell(a + 3)
                         .setCellValue(installment.getActualAmount());
                 a += 4;
@@ -126,7 +131,7 @@ public class WriteScheduleToExcel extends ExcelService {
         }
     }
 
-    private void addDatas(Workbook workbook, Sheet sheet, User user) {
+    private void addStaff(Workbook workbook, Sheet sheet, User user) {
         addGeneralHeader(workbook, sheet);
         addInstallmentHeader(workbook, sheet, user);
         addUserData(workbook, sheet, user);
