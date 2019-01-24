@@ -25,9 +25,14 @@ public class Installment {
         return actualAmount;
     }
 
+    public void setActualAmount(double actualAmount) {
+        this.actualAmount = actualAmount;
+    }
+
     public double getExpectedAmount() {
         return expectedAmount;
     }
+
 
     public void setExpectedAmount(double expectedAmount) {
         this.expectedAmount = expectedAmount;

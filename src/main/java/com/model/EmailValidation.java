@@ -3,6 +3,7 @@ package com.model;
 import com.service.ExcelService;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,14 +28,15 @@ public class EmailValidation {
     public boolean isEmailExist(String email) throws IOException, InvalidFormatException {
         if (emailCollector() == null) {
             return true;
-        }
-        for (String element : cellList) {
-            if (element.equals(email)) {
-                System.out.println("This e-mail already exist, enter your e-mail again.");
-                return false;
+        } else {
+            for (String element : cellList) {
+                if (element.equals(email)) {
+                    System.out.println("This e-mail already exist, enter your e-mail again.");
+                    return false;
+                }
             }
+            return true;
         }
-        return true;
     }
 
     private List<String> emailCollector() throws IOException, InvalidFormatException {
@@ -51,7 +53,7 @@ public class EmailValidation {
                 cellList.add(sheet.getRow(i).getCell(1).getStringCellValue());
             }
             return cellList;
-        }else {
+        } else {
             return null;
         }
     }
