@@ -1,36 +1,47 @@
-import com.model.EmailValidation;
-import com.model.User;
-import com.service.CreateScheduleService;
-import com.service.WriteScheduleToExcel;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
-    List<User> listOfUsers = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException, InvalidFormatException {
+    public static void main(String[] args) throws IOException {
 
-        Main main = new Main();
-
-        CreateScheduleService createScheduleService = new CreateScheduleService();
-
-        User user = createScheduleService.createSchedule();
-
-
-        WriteScheduleToExcel test = new WriteScheduleToExcel();
-
-        test.generateSchedule(user);
+        System.out.println("MENU");
+        System.out.println("Search email >>> 1");
+        System.out.println("Show User >>> 2");
+        System.out.println("Edit User >>> 3");
+        System.out.println("Delete User >>> 4");
+        System.out.println("Exit >>> 5");
+        System.out.println();
+        Scanner scanner = new Scanner(System.in);
 
 
-
-
+        while (true) {
+            System.out.println("Welcome to the application. Choose an option.");
+            int option = scanner.nextInt();
+            switch (option) {
+                case 1:
+                    System.out.println("Provide email: ");
+                    String email = scanner.next();
+                    UserService.verifyEmail();
+                    break;
+                case 2:
+                    UserService.show();
+                    break;
+                case 3:
+                    //something
+                    break;
+                case 4:
+                    //something
+                    break;
+                case 5:
+                    //something
+                    return;
+            }
 
 
         }
 
     }
+
+}
