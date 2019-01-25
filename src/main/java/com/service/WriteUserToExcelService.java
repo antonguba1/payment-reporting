@@ -1,10 +1,8 @@
 package com.service;
-
 import com.model.Installment;
 import com.model.User;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -78,10 +76,13 @@ public class WriteUserToExcelService extends ExcelService{
 
         for (Installment installment : installmentList) {
             Row row = sheet.createRow(rowNum++);
+
             row.createCell(0)
                     .setCellValue(installment.getDueDate().toString());
+
             row.createCell(2)
                     .setCellValue(installment.getActualAmount());
+
             row.createCell(3)
                     .setCellValue(installment.getExpectedAmount());
 
