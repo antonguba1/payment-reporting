@@ -13,8 +13,6 @@ import java.util.List;
 
 public class EmailValidation {
 
-    List<String> cellList;
-
     public boolean validateEmail(String email) {
 
         if (email.contains("@") && email.contains(".")) {
@@ -26,10 +24,11 @@ public class EmailValidation {
     }
 
     public boolean isEmailExist(String email) throws IOException, InvalidFormatException {
-        if (emailCollector() == null) {
+        List<String>  emailList = emailCollector();
+        if (emailList == null) {
             return true;
         } else {
-            for (String element : cellList) {
+            for (String element : emailList) {
                 if (element.equals(email)) {
                     System.out.println("This e-mail already exist, enter your e-mail again.");
                     return false;
@@ -40,19 +39,19 @@ public class EmailValidation {
     }
 
     private List<String> emailCollector() throws IOException, InvalidFormatException {
-        Path path = Paths.get(ExcelService.filePath);
+        Path path = Paths.get(ExcelService.excelPath + "/Payment_schedule.xlsx");
 
         if (Files.exists(path)) {
             InputStream inp = new FileInputStream(String.valueOf(path));
             Workbook workbook = WorkbookFactory.create(inp);
             Sheet sheet = workbook.getSheet("User");
 
-            cellList = new ArrayList<>();
+            List<String> emailList = new ArrayList<>();
 
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-                cellList.add(sheet.getRow(i).getCell(1).getStringCellValue());
+                emailList.add(sheet.getRow(i).getCell(1).getStringCellValue());
             }
-            return cellList;
+            return emailList;
         } else {
             return null;
         }

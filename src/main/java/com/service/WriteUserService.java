@@ -5,20 +5,24 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
-public class WriteUserToExcelService extends ExcelService{
+public class WriteUserService extends ExcelService{
 
     private static String[] userColumns = {"Name", "E-mail", "Actual total amount", "Expected total amount"};
     private static String[] installmentColumns = {"Due date", "", "Actual amount", "Expected amount"};
 
 
     //Creating schedule for one user.
-
     public void saveUserToExcel(User user) throws IOException {
+
+        Files.createDirectories(Paths.get(excelPath));
+
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("User");
-        String fileName = user.getName() + "_payment_schedule.xlsx";
+        String fileName = excelPath + "/" + user.getName() + "_payment_schedule.xlsx";
 
         addUserPart(workbook, sheet, user);
         addInstallmentPart(workbook, sheet, user.getPaymentSchedule().getInstallmentList());
@@ -71,6 +75,7 @@ public class WriteUserToExcelService extends ExcelService{
             cell.setCellValue(installmentColumns[i]);
             cell.setCellStyle(headerSetup(workbook));
         }
+
 
         int rowNum = 5;
 

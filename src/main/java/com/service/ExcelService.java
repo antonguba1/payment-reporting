@@ -6,7 +6,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 public class ExcelService {
 
-    public final static String filePath = "/Users/spazzola/payment-reporting/Payment_schedule.xlsx";
+    public final static String projectPath = System.getProperty("user.dir");
+    public final static String excelPath = projectPath + "/Excel";
 
     protected CellStyle headerSetup(Workbook workbook) {
         Font headerFont = workbook.createFont();
