@@ -1,6 +1,8 @@
 package com.model;
 
 
+import com.utility.DateUtility;
+
 import java.util.Date;
 
 public class Installment {
@@ -46,4 +48,7 @@ public class Installment {
                 ", actualAmount=" + actualAmount +
                 '}';
     }
+
+
 }
+

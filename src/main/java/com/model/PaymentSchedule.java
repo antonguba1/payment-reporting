@@ -1,5 +1,6 @@
 package com.model;
 
+import java.util.Date;
 import java.util.List;
 
 public class PaymentSchedule {
@@ -39,4 +40,20 @@ public class PaymentSchedule {
         }
         return sum;
     }
+
+    public double getArrearOfPayment() {
+        Date actualDate = new Date();
+        double actualAmount = 0;
+        double expectedAmount = 0;
+
+        for (Installment installment : installmentList) {
+            if (installment.getDueDate().before(actualDate)) {
+                actualAmount += installment.getActualAmount();
+                expectedAmount += installment.getExpectedAmount();
+            }
+        }
+
+        return expectedAmount - actualAmount;
+    }
+
 }

@@ -12,6 +12,7 @@ public class GeneralMenu {
         ScannerUtility scannerUtility = new ScannerUtility();
         int choice;
 
+        System.out.println(System.getProperty("user.dir"));
         System.out.println("Choice one from the following options:");
         System.out.println("\n1. Create payment schedule for user.");
         System.out.println("2. Add user to payment schedule.");
@@ -22,15 +23,15 @@ public class GeneralMenu {
             case 1:
                 CreateScheduleService createScheduleService = new CreateScheduleService();
                 User user = createScheduleService.createSchedule();
-                WriteUserToExcelService writeUserToExcelService = new WriteUserToExcelService();
-                writeUserToExcelService.saveUserToExcel(user);
+                WriteUserService writeUserService = new WriteUserService();
+                writeUserService.saveUserToExcel(user);
                 return;
 
             case 2:
                 CreateScheduleService createScheduleService2 = new CreateScheduleService();
                 User user2 = createScheduleService2.createSchedule();
-                WriteScheduleToExcel writeScheduleToExcel = new WriteScheduleToExcel();
-                writeScheduleToExcel.generateSchedule(user2);
+                WriteScheduleService writeScheduleService = new WriteScheduleService();
+                writeScheduleService.generateSchedule(user2);
                 return;
         }
     }

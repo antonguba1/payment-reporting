@@ -12,17 +12,19 @@ import java.nio.file.Paths;
 import java.util.List;
 
 
-public class WriteScheduleToExcel extends ExcelService {
+public class WriteScheduleService extends ExcelService {
 
-    private static final String fileName = "Payment_schedule.xlsx";
+    private static final String fileName = excelPath + "/Payment_schedule.xlsx";
     private static final String[] generalHeader = {"Name", "E-mail", "Actual total amount", "Expected total amount"};
 
     //Creating many users in one schedule.
     public void generateSchedule(User user) throws IOException, InvalidFormatException {
+
+        Files.createDirectories(Paths.get(excelPath));
+
         Sheet sheet;
 
-        //Check path before running the program -> ExcelService class.
-        Path path = Paths.get(filePath);
+        Path path = Paths.get(fileName);
 
         if (Files.exists(path)) {
             InputStream inp = new FileInputStream(fileName);
@@ -53,6 +55,13 @@ public class WriteScheduleToExcel extends ExcelService {
             // Closing the workbook
             workbook.close();
         }
+    }
+
+    private void addStaff(Workbook workbook, Sheet sheet, User user) {
+        addGeneralHeader(workbook, sheet);
+        addInstallmentHeader(workbook, sheet, user);
+        addUserData(workbook, sheet, user);
+        addInstallmentData(workbook, sheet, user.getPaymentSchedule().getInstallmentList());
     }
 
     private void addGeneralHeader(Workbook workbook, Sheet sheet) {
@@ -122,7 +131,7 @@ public class WriteScheduleToExcel extends ExcelService {
                         .setCellValue(installment.getExpectedAmount());
 
                 row.createCell(a + 2)
-                        .setCellValue("here actual date");
+                        .setCellValue("here will be actual date");
 
                 row.createCell(a + 3)
                         .setCellValue(installment.getActualAmount());
@@ -131,11 +140,6 @@ public class WriteScheduleToExcel extends ExcelService {
         }
     }
 
-    private void addStaff(Workbook workbook, Sheet sheet, User user) {
-        addGeneralHeader(workbook, sheet);
-        addInstallmentHeader(workbook, sheet, user);
-        addUserData(workbook, sheet, user);
-        addInstallmentData(workbook, sheet, user.getPaymentSchedule().getInstallmentList());
-    }
+
 }
 
