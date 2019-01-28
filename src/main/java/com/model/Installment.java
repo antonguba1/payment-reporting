@@ -35,7 +35,6 @@ public class Installment {
         return expectedAmount;
     }
 
-
     public void setExpectedAmount(double expectedAmount) {
         this.expectedAmount = expectedAmount;
     }
