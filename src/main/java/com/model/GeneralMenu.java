@@ -1,6 +1,8 @@
-package com.service;
+package com.model;
 
-import com.model.User;
+import com.service.CreateScheduleService;
+import com.service.WriteScheduleService;
+import com.service.WriteUserService;
 import com.utility.ScannerUtility;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 

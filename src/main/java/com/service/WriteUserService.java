@@ -1,4 +1,5 @@
 package com.service;
+import com.model.ExcelService;
 import com.model.Installment;
 import com.model.User;
 import org.apache.poi.ss.usermodel.*;
@@ -9,10 +10,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class WriteUserService extends ExcelService{
+public class WriteUserService extends ExcelService {
 
     private static String[] userColumns = {"Name", "E-mail", "Actual total amount", "Expected total amount"};
-    private static String[] installmentColumns = {"Due date", "", "Actual amount", "Expected amount"};
+    private static String[] installmentColumns = {"Due date", "", "Actual amount", "Real exptected amount", "Expected amount"};
 
 
     //Creating schedule for one user.
@@ -24,12 +25,16 @@ public class WriteUserService extends ExcelService{
         Sheet sheet = workbook.createSheet("User");
         String fileName = excelPath + "/" + user.getName() + "_payment_schedule.xlsx";
 
+        user.transferPayment();
+
         addUserPart(workbook, sheet, user);
         addInstallmentPart(workbook, sheet, user.getPaymentSchedule().getInstallmentList());
 
         for(int i = 0; i < userColumns.length; i++) {
             sheet.autoSizeColumn(i);
         }
+
+
 
         FileOutputStream fileOut = new FileOutputStream(fileName);
         workbook.write(fileOut);
@@ -89,6 +94,9 @@ public class WriteUserService extends ExcelService{
                     .setCellValue(installment.getActualAmount());
 
             row.createCell(3)
+                    .setCellValue(installment.getRealExpectedAmount());
+
+            row.createCell(4)
                     .setCellValue(installment.getExpectedAmount());
 
         }

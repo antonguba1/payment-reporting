@@ -1,5 +1,6 @@
 package com.service;
 
+import com.model.ExcelService;
 import com.model.Installment;
 import com.model.User;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -15,7 +16,7 @@ import java.util.List;
 public class WriteScheduleService extends ExcelService {
 
     private static final String fileName = excelPath + "/Payment_schedule.xlsx";
-    private static final String[] generalHeader = {"Name", "E-mail", "Actual total amount", "Expected total amount"};
+    private static final String[] generalHeader = {"Name", "E-mail", "Actual total amount", "Expected total amount", "Number of installments"};
 
     //Creating many users in one schedule.
     public void generateSchedule(User user) throws IOException, InvalidFormatException {
@@ -91,7 +92,7 @@ public class WriteScheduleService extends ExcelService {
         Row headerRow = sheet.getRow(0);
 
         for (int i = 0; i < 4 * j; i++) {
-            Cell cell = headerRow.createCell(i + 4);
+            Cell cell = headerRow.createCell(i + 5);
             cell.setCellValue(paymentHeader[i]);
             cell.setCellStyle(headerSetup(workbook));
             sheet.autoSizeColumn(i);
@@ -115,6 +116,9 @@ public class WriteScheduleService extends ExcelService {
         row.createCell(3)
                 .setCellValue(user.getPaymentSchedule().getExpectedTotalAmount());
 
+        row.createCell(4)
+                .setCellValue(user.getPaymentSchedule().getInstallmentList().size());
+
     }
 
     private void addInstallmentData(Workbook workbook, Sheet sheet, List<Installment> installmentList) {
@@ -122,7 +126,7 @@ public class WriteScheduleService extends ExcelService {
 
         Row row = sheet.getRow((sheet.getLastRowNum()));
         for (int i = 0; i < installmentList.size(); i++) {
-            int a = 4;
+            int a = 5;
             for (Installment installment : installmentList) {
                 row.createCell(a)
                         .setCellValue(installment.getDueDate().toString());
@@ -131,7 +135,7 @@ public class WriteScheduleService extends ExcelService {
                         .setCellValue(installment.getExpectedAmount());
 
                 row.createCell(a + 2)
-                        .setCellValue("here will be actual date");
+                        .setCellValue("here will date of payment");
 
                 row.createCell(a + 3)
                         .setCellValue(installment.getActualAmount());

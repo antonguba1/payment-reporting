@@ -1,7 +1,8 @@
 
 
-import com.service.GeneralMenu;
+import com.model.GeneralMenu;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
 import java.io.IOException;
 
 public class Main {
@@ -12,11 +13,6 @@ public class Main {
 
         GeneralMenu.runProgram();
 
-
-
-
-
-
-        }
-
     }
+
+}

@@ -19,17 +19,11 @@ public class PaymentSchedule {
         return installmentList;
     }
 
-    public PaymentScheduleInfo getPaymentScheduleInfo() {
-        return paymentScheduleInfo;
-    }
-
     public double getExpectedTotalAmount() {
-        double sum = 0;
+        int numberOfInstallments = paymentScheduleInfo.getNumberOfInstallments();
+        double installmentAmount = paymentScheduleInfo.getInstallmentAmount();
 
-        for (Installment installment : installmentList) {
-            sum += installment.getExpectedAmount();
-        }
-        return sum;
+        return numberOfInstallments * installmentAmount;
     }
 
     public double getActualTotalAmount() {
@@ -40,6 +34,30 @@ public class PaymentSchedule {
         }
         return sum;
     }
+/*
+    public void transferPayment() {
+        double rest = 0;
+
+        for (int i = 0; i < installmentList.size(); i++) {
+            if (installmentList.get(i).getActualAmount() < installmentList.get(i).getExpectedAmount()) {
+
+                rest = installmentList.get(i).getExpectedAmount() - installmentList.get(i).getActualAmount();
+                installmentList.get(i + 1).setRealExpectedAmount(installmentList.get(i + 1).getExpectedAmount() + rest);
+
+            } else if (installmentList.get(i).getActualAmount() > installmentList.get(i).getExpectedAmount()) {
+
+                rest = installmentList.get(i).getExpectedAmount() - installmentList.get(i).getActualAmount();
+                installmentList.get(i + 1).setRealExpectedAmount(installmentList.get(i + 1).getExpectedAmount() + rest);
+
+            } else {
+
+                rest = 0;
+                installmentList.get(i + 1).setRealExpectedAmount(installmentList.get(i + 1).getExpectedAmount() + rest);
+            }
+        }
+
+    }
+*/
 
     public double getArrearOfPayment() {
         Date actualDate = new Date();

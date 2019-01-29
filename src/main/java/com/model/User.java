@@ -9,9 +9,10 @@ public class User {
     private String name;
     private String email;
     private PaymentSchedule paymentSchedule;
+    private PaymentScheduleInfo paymentScheduleInfo;
 
 
-    public User(){
+    public User() {
 
     }
 
@@ -25,6 +26,10 @@ public class User {
 
     public PaymentSchedule getPaymentSchedule() {
         return paymentSchedule;
+    }
+
+    public PaymentScheduleInfo getPaymentScheduleInfo() {
+        return paymentScheduleInfo;
     }
 
     public void setPaymentSchedule(PaymentSchedule paymentSchedule) {
@@ -44,6 +49,29 @@ public class User {
         for (Installment e : paymentSchedule.getInstallmentList()) {
             Loger.printInfo(e.toString());
         }
+    }
+
+    public void transferPayment() {
+        double rest = 0;
+
+        for (int i = 0; i < paymentSchedule.getInstallmentList().size() - 1; i++) {
+            if (paymentSchedule.getInstallmentList().get(i).getActualAmount() < paymentSchedule.getInstallmentList().get(i).getExpectedAmount()) {
+
+                rest = paymentSchedule.getInstallmentList().get(i).getExpectedAmount() - paymentSchedule.getInstallmentList().get(i).getActualAmount();
+                paymentSchedule.getInstallmentList().get(i + 1).setRealExpectedAmount(paymentSchedule.getInstallmentList().get(i + 1).getExpectedAmount() + rest);
+
+            } else if (paymentSchedule.getInstallmentList().get(i).getActualAmount() > paymentSchedule.getInstallmentList().get(i).getExpectedAmount()) {
+
+                rest = paymentSchedule.getInstallmentList().get(i).getExpectedAmount() - paymentSchedule.getInstallmentList().get(i).getActualAmount();
+                paymentSchedule.getInstallmentList().get(i + 1).setRealExpectedAmount(paymentSchedule.getInstallmentList().get(i + 1).getExpectedAmount() + rest);
+
+            } else {
+
+                rest = 0;
+                paymentSchedule.getInstallmentList().get(i + 1).setRealExpectedAmount(paymentSchedule.getInstallmentList().get(i + 1).getExpectedAmount() + rest);
+            }
+        }
+
     }
 
     @Override

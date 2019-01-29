@@ -10,6 +10,8 @@ public class Installment {
     private Date dueDate;
     private double expectedAmount;
     private double actualAmount;
+    private double realExpectedAmount;
+
 
     public Installment() {
 
@@ -40,6 +42,14 @@ public class Installment {
         this.expectedAmount = expectedAmount;
     }
 
+    public void setRealExpectedAmount(double realExpectedAmount) {
+        this.realExpectedAmount = realExpectedAmount;
+    }
+
+    public double getRealExpectedAmount() {
+        return realExpectedAmount;
+    }
+
     @Override
     public String toString() {
         return "Installment{" +
@@ -48,7 +58,4 @@ public class Installment {
                 ", actualAmount=" + actualAmount +
                 '}';
     }
-
-
 }
-
