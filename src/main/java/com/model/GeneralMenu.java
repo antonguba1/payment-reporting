@@ -18,6 +18,7 @@ public class GeneralMenu {
         System.out.println("Choice one from the following options:");
         System.out.println("\n1. Create payment schedule for user.");
         System.out.println("2. Add user to payment schedule.");
+        System.out.println("\n3. Exit");
 
         choice = scannerUtility.scanInteger();
 
@@ -35,6 +36,9 @@ public class GeneralMenu {
                 WriteScheduleService writeScheduleService = new WriteScheduleService();
                 writeScheduleService.generateSchedule(user2);
                 return;
+
+            case 3:
+                break;
         }
     }
 
