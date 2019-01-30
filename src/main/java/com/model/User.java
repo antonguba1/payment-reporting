@@ -55,20 +55,24 @@ public class User {
         double rest = 0;
 
         for (int i = 0; i < paymentSchedule.getInstallmentList().size() - 1; i++) {
+
             if (paymentSchedule.getInstallmentList().get(i).getActualAmount() < paymentSchedule.getInstallmentList().get(i).getExpectedAmount()) {
 
-                rest = paymentSchedule.getInstallmentList().get(i).getExpectedAmount() - paymentSchedule.getInstallmentList().get(i).getActualAmount();
+                rest = (paymentSchedule.getInstallmentList().get(i).getExpectedAmount() - paymentSchedule.getInstallmentList().get(i).getActualAmount() / (paymentSchedule.getInstallmentList().size() + 2));
                 paymentSchedule.getInstallmentList().get(i + 1).setRealExpectedAmount(paymentSchedule.getInstallmentList().get(i + 1).getExpectedAmount() + rest);
+                //tutaj wyżej trzeba od razu podzielic rest przez ilosc rat i dodac do kolejnych obiektow w liscie
+                return;
 
             } else if (paymentSchedule.getInstallmentList().get(i).getActualAmount() > paymentSchedule.getInstallmentList().get(i).getExpectedAmount()) {
 
                 rest = paymentSchedule.getInstallmentList().get(i).getExpectedAmount() - paymentSchedule.getInstallmentList().get(i).getActualAmount();
                 paymentSchedule.getInstallmentList().get(i + 1).setRealExpectedAmount(paymentSchedule.getInstallmentList().get(i + 1).getExpectedAmount() + rest);
+                //to samo tutaj
+                return;
 
             } else {
+                transferPayment();
 
-                rest = 0;
-                paymentSchedule.getInstallmentList().get(i + 1).setRealExpectedAmount(paymentSchedule.getInstallmentList().get(i + 1).getExpectedAmount() + rest);
             }
         }
 
