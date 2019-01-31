@@ -1,15 +1,20 @@
 package com.service;
+
 import com.model.Installment;
 import com.model.User;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class WriteUserService extends ExcelService{
+public class WriteUserService extends ExcelService {
 
     private static String[] userColumns = {"Name", "E-mail", "Actual total amount", "Expected total amount"};
     private static String[] installmentColumns = {"Due date", "", "Actual amount", "Expected amount"};
@@ -27,7 +32,7 @@ public class WriteUserService extends ExcelService{
         addUserPart(workbook, sheet, user);
         addInstallmentPart(workbook, sheet, user.getPaymentSchedule().getInstallmentList());
 
-        for(int i = 0; i < userColumns.length; i++) {
+        for (int i = 0; i < userColumns.length; i++) {
             sheet.autoSizeColumn(i);
         }
 
@@ -44,7 +49,7 @@ public class WriteUserService extends ExcelService{
 
         Row headerRow = sheet.createRow(0);
 
-        for(int i = 0; i < userColumns.length; i++) {
+        for (int i = 0; i < userColumns.length; i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(userColumns[i]);
             cell.setCellStyle(headerSetup(workbook));
@@ -70,7 +75,7 @@ public class WriteUserService extends ExcelService{
 
         Row headerRow = sheet.createRow(4);
 
-        for(int i = 0; i < installmentColumns.length; i++) {
+        for (int i = 0; i < installmentColumns.length; i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(installmentColumns[i]);
             cell.setCellStyle(headerSetup(workbook));

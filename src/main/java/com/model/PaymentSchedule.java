@@ -1,12 +1,13 @@
 package com.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PaymentSchedule {
 
     private PaymentScheduleInfo paymentScheduleInfo;
-   // private double numberOfInstallments;
+    // private double numberOfInstallments;
     private double actualTotalAmount;
     private double expectedTotalAmount;
     private List<Installment> installmentList = new ArrayList<>();
@@ -14,7 +15,7 @@ public class PaymentSchedule {
 
     public PaymentSchedule(PaymentScheduleInfo paymentScheduleInfo, double actualTotalAmount, double expectedTotalAmount, List<Installment> installmentList) {
         this.paymentScheduleInfo = paymentScheduleInfo;
-      //  this.numberOfInstallments = numberOfInstallments;
+        //  this.numberOfInstallments = numberOfInstallments;
         this.actualTotalAmount = actualTotalAmount;
         this.expectedTotalAmount = expectedTotalAmount;
         this.installmentList = installmentList;
@@ -37,8 +38,8 @@ public class PaymentSchedule {
     }
 
     public double getExpectedTotalAmount() {
-        return paymentScheduleInfo.getInstallmentAmount()*paymentScheduleInfo.getNumberOfInstallments();
-            }
+        return paymentScheduleInfo.getInstallmentAmount() * paymentScheduleInfo.getNumberOfInstallments();
+    }
 
     public double getActualTotalAmount() {
         double sum = 0;

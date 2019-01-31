@@ -1,6 +1,9 @@
 package com.service;
 
-import com.model.*;
+import com.model.Installment;
+import com.model.PaymentSchedule;
+import com.model.PaymentScheduleInfo;
+import com.model.User;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import java.io.IOException;

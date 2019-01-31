@@ -14,7 +14,7 @@ public class GeneralMenu {
 
         System.out.println(System.getProperty("user.dir"));
         System.out.println("Choice one from the following options:");
-        System.out.println("\n1. Create payment schedule for user.");
+        System.out.println("1. Create payment schedule for user.");
         System.out.println("2. Add user to payment schedule.");
 
         choice = scannerUtility.scanInteger();

@@ -2,9 +2,13 @@ package com.model;
 
 import com.service.ExcelService;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,7 +28,7 @@ public class EmailValidation {
     }
 
     public boolean isEmailExist(String email) throws IOException, InvalidFormatException {
-        List<String>  emailList = emailCollector();
+        List<String> emailList = emailCollector();
         if (emailList == null) {
             return true;
         } else {
