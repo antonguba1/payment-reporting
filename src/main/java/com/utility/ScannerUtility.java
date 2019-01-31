@@ -18,7 +18,7 @@ public class ScannerUtility {
     public int scanInteger() {
         try {
             int result = scanner.nextInt();
-            if(result <= 0) {
+            if (result <= 0) {
                 throw new Exception();
             }
             return result;
@@ -37,7 +37,7 @@ public class ScannerUtility {
     public double scanDouble() {
         try {
             double result = scanner.nextDouble();
-            if(result <= 0) {
+            if (result <= 0) {
                 throw new Exception();
             }
             return result;

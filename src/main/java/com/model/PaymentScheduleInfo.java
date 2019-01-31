@@ -12,12 +12,6 @@ public class PaymentScheduleInfo {
 
     }
 
-    public PaymentScheduleInfo(Date firstDueDate, int numberOfInstallments, double installmentAmount) {
-        this.firstDueDate = firstDueDate;
-        this.numberOfInstallments = numberOfInstallments;
-        this.installmentAmount = installmentAmount;
-    }
-
     public void setFirstDueDate(Date firstDueDate) {
         this.firstDueDate = firstDueDate;
     }

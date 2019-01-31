@@ -1,8 +1,6 @@
 package com.model;
 
 
-import org.apache.poi.ss.usermodel.Cell;
-
 import java.util.Date;
 
 public class Installment {
@@ -62,5 +60,4 @@ public class Installment {
                 ", actualAmount=" + actualAmount +
                 '}';
     }
-
 }

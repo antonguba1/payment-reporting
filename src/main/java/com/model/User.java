@@ -51,5 +51,4 @@ public class User {
                 ", paymentSchedule=" + paymentSchedule +
                 '}';
     }
-
 }

@@ -4,13 +4,21 @@ import com.model.EmailValidation;
 import com.model.User;
 import com.utility.Loger;
 import com.utility.ScannerUtility;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Sheet;
+
+import java.io.IOException;
 
 
 public class ReadUserService {
 
     private EmailValidation emailValidation = new EmailValidation();
 
-    public User createUser() {
+    public ReadUserService() {
+
+    }
+
+    public User createUser() throws IOException, InvalidFormatException {
         ScannerUtility scannerUtility = new ScannerUtility();
         User user = new User();
 
@@ -22,11 +30,11 @@ public class ReadUserService {
         do {
             System.out.println("\nEnter your e-mail:");
             email = scannerUtility.scanString();
-        }while(!emailValidation.validateEmail(email));
+        } while (!emailValidation.validateEmail(email) || !emailValidation.isEmailExist(email));
 
         user.setEmail(email);
 
-        System.out.println("Enter your name: " );
+        System.out.println("Enter your name: ");
         name = scannerUtility.scanString();
         user.setName(name);
 

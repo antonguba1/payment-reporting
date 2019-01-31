@@ -37,13 +37,8 @@ public class PaymentSchedule {
     }
 
     public double getExpectedTotalAmount() {
-        double sum = 0;
-
-        for (Installment installment : installmentList) {
-            sum += installment.getExpectedAmount();
-        }
-        return sum;
-    }
+        return paymentScheduleInfo.getInstallmentAmount()*paymentScheduleInfo.getNumberOfInstallments();
+            }
 
     public double getActualTotalAmount() {
         double sum = 0;
@@ -53,6 +48,22 @@ public class PaymentSchedule {
         }
         return sum;
     }
+
+    public double getArrearOfPayment() {
+        Date actualDate = new Date();
+        double actualAmount = 0;
+        double expectedAmount = 0;
+
+        for (Installment installment : installmentList) {
+            if (installment.getDueDate().before(actualDate)) {
+                actualAmount += installment.getActualAmount();
+                expectedAmount += installment.getExpectedAmount();
+            }
+        }
+
+        return expectedAmount - actualAmount;
+    }
+
 
     public void setActualTotalAmount(double actualTotalAmount) {
         this.actualTotalAmount = actualTotalAmount;
