@@ -18,7 +18,7 @@ public class CreateScheduleService {
         PaymentScheduleInfo paymentScheduleInfo = readScheduleService.createPaymentScheduleInfo();
         List<Installment> listOfInstallments = installmentService.generateInstallments(paymentScheduleInfo);
 
-        PaymentSchedule paymentSchedule = new PaymentSchedule(paymentScheduleInfo, listOfInstallments);
+        PaymentSchedule paymentSchedule = new PaymentSchedule();
         user.setPaymentSchedule(paymentSchedule);
         user.printInstallments();
 

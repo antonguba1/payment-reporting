@@ -9,7 +9,7 @@ public class User {
     private String email;
     private PaymentSchedule paymentSchedule;
 
-    public User(){
+    public User() {
 
     }
 
@@ -51,4 +51,5 @@ public class User {
                 ", paymentSchedule=" + paymentSchedule +
                 '}';
     }
+
 }

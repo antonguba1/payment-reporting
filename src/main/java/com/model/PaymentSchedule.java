@@ -1,19 +1,35 @@
 package com.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PaymentSchedule {
 
     private PaymentScheduleInfo paymentScheduleInfo;
-    private List<Installment> installmentList;
+   // private double numberOfInstallments;
+    private double actualTotalAmount;
+    private double expectedTotalAmount;
+    private List<Installment> installmentList = new ArrayList<>();
 
-    public PaymentSchedule(PaymentScheduleInfo paymentScheduleInfo, List<Installment> installmentList) {
+
+    public PaymentSchedule(PaymentScheduleInfo paymentScheduleInfo, double actualTotalAmount, double expectedTotalAmount, List<Installment> installmentList) {
         this.paymentScheduleInfo = paymentScheduleInfo;
+      //  this.numberOfInstallments = numberOfInstallments;
+        this.actualTotalAmount = actualTotalAmount;
+        this.expectedTotalAmount = expectedTotalAmount;
         this.installmentList = installmentList;
+    }
+
+    public PaymentSchedule() {
+
     }
 
     public List<Installment> getInstallmentList() {
         return installmentList;
+    }
+
+    public void setPaymentScheduleInfo(PaymentScheduleInfo paymentScheduleInfo) {
+        this.paymentScheduleInfo = paymentScheduleInfo;
     }
 
     public PaymentScheduleInfo getPaymentScheduleInfo() {
@@ -37,4 +53,13 @@ public class PaymentSchedule {
         }
         return sum;
     }
+
+    public void setActualTotalAmount(double actualTotalAmount) {
+        this.actualTotalAmount = actualTotalAmount;
+    }
+
+    public void setExpectedTotalAmount(double expectedTotalAmount) {
+        this.expectedTotalAmount = expectedTotalAmount;
+    }
+
 }
