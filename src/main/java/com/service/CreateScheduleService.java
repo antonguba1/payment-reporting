@@ -23,6 +23,8 @@ public class CreateScheduleService {
         List<Installment> listOfInstallments = installmentService.generateInstallments(paymentScheduleInfo);
 
         PaymentSchedule paymentSchedule = new PaymentSchedule();
+        paymentSchedule.setInstallmentList(listOfInstallments);
+        paymentSchedule.setExpectedTotalAmount(listOfInstallments.size() * listOfInstallments.get(0).getExpectedAmount());
         user.setPaymentSchedule(paymentSchedule);
         user.printInstallments();
 

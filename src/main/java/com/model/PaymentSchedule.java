@@ -38,7 +38,7 @@ public class PaymentSchedule {
     }
 
     public double getExpectedTotalAmount() {
-        return paymentScheduleInfo.getInstallmentAmount() * paymentScheduleInfo.getNumberOfInstallments();
+        return expectedTotalAmount;
     }
 
     public double getActualTotalAmount() {
@@ -74,4 +74,7 @@ public class PaymentSchedule {
         this.expectedTotalAmount = expectedTotalAmount;
     }
 
+    public void setInstallmentList(List<Installment> installmentList) {
+        this.installmentList = installmentList;
+    }
 }
