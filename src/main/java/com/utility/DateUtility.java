@@ -2,14 +2,13 @@ package com.utility;
 
 import org.apache.commons.lang3.time.DateUtils;
 
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DateUtility {
 
 
-    //private static final Date truncatedDate = DateUtils.truncate(new Date(), Calendar.DATE);
     private static final SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
 
     public static Date toDate(String date) {
@@ -25,9 +24,5 @@ public class DateUtility {
     public static Date incrementMonth(Date date) {
         return DateUtils.addMonths(date, 1);
     }
-/*
-    public static Date toDate(String date) {
 
-        return new Date(truncatedDate.getTime());
-}*/
 }
