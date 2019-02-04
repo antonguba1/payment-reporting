@@ -1,7 +1,9 @@
 package com.service;
 
-import com.model.*;
-import com.utility.Loger;
+import com.model.Installment;
+import com.model.PaymentSchedule;
+import com.model.PaymentScheduleInfo;
+import com.model.User;
 import com.utility.ScannerUtility;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
@@ -12,9 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ReadUserService {
-
-    private EmailValidation emailValidation = new EmailValidation();
+public class ReadUserService extends ExcelService {
 
     public ReadUserService() {
 
@@ -24,23 +24,17 @@ public class ReadUserService {
         ScannerUtility scannerUtility = new ScannerUtility();
         User user = new User();
 
-        String name;
         String email;
 
         System.out.println("Enter your following data:");
 
-        do {
-            System.out.println("\nEnter your e-mail:");
-            email = scannerUtility.scanString();
-        } while (!emailValidation.validateEmail(email) || !emailValidation.isEmailExist(email));
+        //TODO use emailValidation
+        System.out.println("\nEnter your e-mail:");
+        email = scannerUtility.scanString();
 
         user.setEmail(email);
 
-        System.out.println("Enter your name: ");
-        name = scannerUtility.scanString();
-        user.setName(name);
 
-        Loger.printInfo("User created. " + user);
         return user;
     }
 
@@ -132,6 +126,10 @@ public class ReadUserService {
         }
 
         workbook.close();
+    }
+
+    public User readUser() {
+        return null;
     }
 
 }

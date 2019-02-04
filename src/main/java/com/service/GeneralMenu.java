@@ -15,24 +15,23 @@ public class GeneralMenu {
         System.out.println(System.getProperty("user.dir"));
         System.out.println("Choice one from the following options:");
         System.out.println("1. Create payment schedule for a user.");
-        System.out.println("2. Generate detail report for a user.");
+        System.out.println("2. Add a payment.");
 
         choice = scannerUtility.scanInteger();
-
+        User user;
         switch (choice) {
-            /*case 1:
-                CreateScheduleService createScheduleService = new CreateScheduleService();
-                User user = createScheduleService.createSchedule();
-                WriteUserService writeUserService = new WriteUserService();
-                writeUserService.saveUserToExcel(user);
-                return;
-*/
             case 1:
                 CreateScheduleService createScheduleService = new CreateScheduleService();
-                User user = createScheduleService.createSchedule();
+                user = createScheduleService.createSchedule();
                 WriteScheduleService writeScheduleService = new WriteScheduleService();
                 writeScheduleService.generateSchedule(user);
-                return;
+                break;
+            case 2:
+                ReadUserService readUserService = new ReadUserService();
+                user = readUserService.readUser();
+                AddPaymentService addPaymentService = new AddPaymentService();
+                addPaymentService.addPayment(user);
+                break;
         }
     }
 
