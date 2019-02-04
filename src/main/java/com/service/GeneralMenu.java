@@ -27,11 +27,11 @@ public class GeneralMenu {
                 writeScheduleService.generateSchedule(user);
                 break;
             case 2:
-                ReadUserService readUserService = new ReadUserService();
+               /* ReadUserService readUserService = new ReadUserService();
                 user = readUserService.readUser();
                 AddPaymentService addPaymentService = new AddPaymentService();
                 addPaymentService.addPayment(user);
-                break;
+               */ break;
         }
     }
 

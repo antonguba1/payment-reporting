@@ -42,7 +42,7 @@ public class EmailValidation {
         }
     }
 
-    private List<String> emailCollector() throws IOException, InvalidFormatException {
+    public List<String> emailCollector() throws IOException, InvalidFormatException {
         Path path = Paths.get(ExcelService.EXCEL_PATH + "/Payment_schedule.xlsx");
 
         if (Files.exists(path)) {

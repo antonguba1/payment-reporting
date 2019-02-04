@@ -7,7 +7,6 @@ import java.util.List;
 public class PaymentSchedule {
 
     private PaymentScheduleInfo paymentScheduleInfo;
-    // private double numberOfInstallments;
     private double actualTotalAmount;
     private double expectedTotalAmount;
     private List<Installment> installmentList = new ArrayList<>();
