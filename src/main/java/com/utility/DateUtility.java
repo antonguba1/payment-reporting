@@ -21,6 +21,10 @@ public class DateUtility {
         }
     }
 
+    public static String toString(Date date) {
+        return sdf1.format(date);
+    }
+
     public static Date incrementMonth(Date date) {
         return DateUtils.addMonths(date, 1);
     }

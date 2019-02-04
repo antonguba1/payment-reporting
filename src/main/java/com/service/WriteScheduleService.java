@@ -1,7 +1,10 @@
 package com.service;
 
+import com.model.GeneralHeader;
 import com.model.Installment;
+import com.model.InstallmentHeader;
 import com.model.User;
+import com.utility.DateUtility;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -15,30 +18,32 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import static com.model.GeneralHeader.*;
+import static com.model.InstallmentHeader.*;
+
 
 public class WriteScheduleService extends ExcelService {
 
-    private static final String fileName = excelPath + "/Payment_schedule.xlsx";
-    private static final String[] generalHeader = {"Name", "E-mail", "Actual total amount", "Expected total amount"};
+    private static final String FILENAME = EXCEL_PATH + "/Payment_schedule.xlsx";
 
     //Creating many users in one schedule.
     public void generateSchedule(User user) throws IOException, InvalidFormatException {
 
-        Files.createDirectories(Paths.get(excelPath));
+        Files.createDirectories(Paths.get(EXCEL_PATH));
 
         Sheet sheet;
 
-        Path path = Paths.get(fileName);
+        Path path = Paths.get(FILENAME);
 
         if (Files.exists(path)) {
-            InputStream inp = new FileInputStream(fileName);
+            InputStream inp = new FileInputStream(FILENAME);
             Workbook workbook = WorkbookFactory.create(inp);
 
             sheet = workbook.getSheet("User");
 
             addStaff(workbook, sheet, user);
 
-            FileOutputStream fileOut = new FileOutputStream(fileName);
+            FileOutputStream fileOut = new FileOutputStream(FILENAME);
             workbook.write(fileOut);
             fileOut.close();
 
@@ -47,12 +52,9 @@ public class WriteScheduleService extends ExcelService {
             sheet = workbook.createSheet("User");
 
             addStaff(workbook, sheet, user);
+            autosizeColumns(sheet);
 
-            for (int i = 0; i < generalHeader.length; i++) {
-                sheet.autoSizeColumn(i);
-            }
-
-            FileOutputStream fileOut = new FileOutputStream(fileName);
+            FileOutputStream fileOut = new FileOutputStream(FILENAME);
             workbook.write(fileOut);
             fileOut.close();
 
@@ -61,87 +63,97 @@ public class WriteScheduleService extends ExcelService {
         }
     }
 
-    private void addStaff(Workbook workbook, Sheet sheet, User user) {
-        addGeneralHeader(workbook, sheet);
-        addInstallmentHeader(workbook, sheet, user);
-        addUserData(workbook, sheet, user);
-        addInstallmentData(workbook, sheet, user.getPaymentSchedule().getInstallmentList());
-    }
-
-    private void addGeneralHeader(Workbook workbook, Sheet sheet) {
-        Row headerRow = sheet.createRow(0);
-
-        for (int i = 0; i < generalHeader.length; i++) {
-            Cell cell = headerRow.createCell(i);
-            cell.setCellValue(generalHeader[i]);
-            cell.setCellStyle(headerSetup(workbook));
-        }
-    }
-
-    private void addInstallmentHeader(Workbook workbook, Sheet sheet, User user) {
-
-        int j = user.getPaymentSchedule().getInstallmentList().size();
-        String[] paymentHeader = new String[4 * j];
-        int a = 1;
-
-        for (int i = 0; i < paymentHeader.length; i += 4) {
-            paymentHeader[i] = "Due date " + Integer.toString(a);
-            paymentHeader[i + 1] = "Expected amount " + Integer.toString(a);
-            paymentHeader[i + 2] = "Actual date " + Integer.toString(a);
-            paymentHeader[i + 3] = "Actual amount " + Integer.toString(a);
-            a += 1;
-        }
-
-        Row headerRow = sheet.getRow(0);
-
-        for (int i = 0; i < 4 * j; i++) {
-            Cell cell = headerRow.createCell(i + 4);
-            cell.setCellValue(paymentHeader[i]);
-            cell.setCellStyle(headerSetup(workbook));
+    private void autosizeColumns(Sheet sheet) {
+        for (int i = 0; i < GeneralHeader.values().length; i++) {
             sheet.autoSizeColumn(i);
         }
     }
 
-    private void addUserData(Workbook workbook, Sheet sheet, User user) {
+    private void addStaff(Workbook workbook, Sheet sheet, User user) {
         headerSetup(workbook);
+        addGeneralHeader(sheet);
+        addInstallmentHeader(sheet, user);
+        addUserData(sheet, user);
+        addInstallmentData(sheet, user.getPaymentSchedule().getInstallmentList());
+    }
+
+    private void addGeneralHeader(Sheet sheet) {
+        Row headerRow = sheet.createRow(0);
+        GeneralHeader[] headers = GeneralHeader.values();
+        for (int i = 0; i < GeneralHeader.values().length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i].getName());
+            cell.setCellStyle(cellStyle);
+        }
+    }
+
+    private void addInstallmentHeader(Sheet sheet, User user) {
+
+        int j = user.getPaymentSchedule().getInstallmentList().size();
+        int columnsPerInstallment = InstallmentHeader.values().length;
+        String[] paymentHeader = new String[columnsPerInstallment * j];
+        int number = 1;
+
+        for (int i = 0; i < paymentHeader.length; i += columnsPerInstallment) {
+            paymentHeader[i] = EXPECTED_DATE.getName() + number;
+            paymentHeader[i + 1] = EXPECTED_AMOUNT.getName() + number;
+            paymentHeader[i + 2] = ACTUAL_DATE.getName() + number;
+            paymentHeader[i + 3] = ACTUAL_AMOUNT.getName() + number;
+            number += 1;
+        }
+
+        Row headerRow = sheet.getRow(0);
+        //TODO why not to fill Cell immediately instead of filling paymentHeader
+        for (int i = 0; i < columnsPerInstallment * j; i++) {
+            Cell cell = headerRow.createCell(i + columnsPerInstallment);
+            cell.setCellValue(paymentHeader[i]);
+            cell.setCellStyle(cellStyle);
+            sheet.autoSizeColumn(i);
+        }
+    }
+
+    private void addUserData(Sheet sheet, User user) {
 
         Row row = sheet.createRow(sheet.getLastRowNum() + 1);
 
-        row.createCell(0)
+        row.createCell(NAME.ordinal())
                 .setCellValue(user.getName());
 
-        row.createCell(1)
+        row.createCell(EMAIL.ordinal())
                 .setCellValue(user.getEmail());
 
-        row.createCell(2)
-                .setCellValue(user.getPaymentSchedule().getActualTotalAmount());
+        row.createCell(EXP_INSTALLMENT_NUMBER.ordinal())
+                .setCellValue(user.getPaymentSchedule().getPaymentScheduleInfo().getNumberOfInstallments());
 
-        row.createCell(3)
+        row.createCell(ACTUAL_INSTALLMENT_NUMBER.ordinal())
+                .setCellValue(0);
+
+        row.createCell(EXPECTED_TOTAL_AMOUNT.ordinal())
                 .setCellValue(user.getPaymentSchedule().getExpectedTotalAmount());
+
+        row.createCell(ACTUAL_TOTAL_AMOUNT.ordinal())
+                .setCellValue(0);
 
     }
 
-    private void addInstallmentData(Workbook workbook, Sheet sheet, List<Installment> installmentList) {
-        headerSetup(workbook);
-
+    private void addInstallmentData(Sheet sheet, List<Installment> installmentList) {
         Row row = sheet.getRow((sheet.getLastRowNum()));
-        for (int i = 0; i < installmentList.size(); i++) {
-            int a = 4;
-            for (Installment installment : installmentList) {
-                row.createCell(a)
-                        .setCellValue(installment.getDueDate().toString());
+        int installmentCellIndex = InstallmentHeader.values().length;
+        for (Installment installment : installmentList) {
+            row.createCell(installmentCellIndex)
+                    .setCellValue(DateUtility.toString(installment.getDueDate()));
 
-                row.createCell(a + 1)
-                        .setCellValue(installment.getExpectedAmount());
+            row.createCell(installmentCellIndex + 1)
+                    .setCellValue(installment.getExpectedAmount());
 
-                row.createCell(a + 2)
-                        .setCellValue("here will be actual date");
+            row.createCell(installmentCellIndex + 2)
+                    .setCellValue("");
 
-                row.createCell(a + 3)
-                        .setCellValue(installment.getActualAmount());
-                a += 4;
-            }
+            row.createCell(installmentCellIndex + 3)
+                    .setCellValue(installment.getActualAmount());
+            installmentCellIndex += 4;
         }
+
     }
 
 

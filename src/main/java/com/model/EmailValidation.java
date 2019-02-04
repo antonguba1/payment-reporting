@@ -43,7 +43,7 @@ public class EmailValidation {
     }
 
     private List<String> emailCollector() throws IOException, InvalidFormatException {
-        Path path = Paths.get(ExcelService.excelPath + "/Payment_schedule.xlsx");
+        Path path = Paths.get(ExcelService.EXCEL_PATH + "/Payment_schedule.xlsx");
 
         if (Files.exists(path)) {
             InputStream inp = new FileInputStream(String.valueOf(path));

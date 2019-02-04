@@ -23,11 +23,11 @@ public class WriteUserService extends ExcelService {
     //Creating schedule for one user.
     public void saveUserToExcel(User user) throws IOException {
 
-        Files.createDirectories(Paths.get(excelPath));
+        Files.createDirectories(Paths.get(EXCEL_PATH));
 
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("User");
-        String fileName = excelPath + "/" + user.getName() + "_payment_schedule.xlsx";
+        String fileName = EXCEL_PATH + "/" + user.getName() + "_payment_schedule.xlsx";
 
         addUserPart(workbook, sheet, user);
         addInstallmentPart(workbook, sheet, user.getPaymentSchedule().getInstallmentList());
@@ -45,14 +45,13 @@ public class WriteUserService extends ExcelService {
     }
 
     private void addUserPart(Workbook workbook, Sheet sheet, User user) {
-        headerSetup(workbook);
 
         Row headerRow = sheet.createRow(0);
 
         for (int i = 0; i < userColumns.length; i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(userColumns[i]);
-            cell.setCellStyle(headerSetup(workbook));
+            cell.setCellStyle(cellStyle);
         }
 
         Row row = sheet.createRow(1);
@@ -71,14 +70,13 @@ public class WriteUserService extends ExcelService {
     }
 
     private void addInstallmentPart(Workbook workbook, Sheet sheet, List<Installment> installmentList) {
-        headerSetup(workbook);
 
         Row headerRow = sheet.createRow(4);
 
         for (int i = 0; i < installmentColumns.length; i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(installmentColumns[i]);
-            cell.setCellStyle(headerSetup(workbook));
+            cell.setCellStyle(cellStyle);
         }
 
 

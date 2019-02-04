@@ -13,14 +13,6 @@ public class PaymentSchedule {
     private List<Installment> installmentList = new ArrayList<>();
 
 
-    public PaymentSchedule(PaymentScheduleInfo paymentScheduleInfo, double actualTotalAmount, double expectedTotalAmount, List<Installment> installmentList) {
-        this.paymentScheduleInfo = paymentScheduleInfo;
-        //  this.numberOfInstallments = numberOfInstallments;
-        this.actualTotalAmount = actualTotalAmount;
-        this.expectedTotalAmount = expectedTotalAmount;
-        this.installmentList = installmentList;
-    }
-
     public PaymentSchedule() {
 
     }

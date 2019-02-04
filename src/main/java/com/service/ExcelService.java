@@ -7,10 +7,16 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 public class ExcelService {
 
-    public final static String projectPath = System.getProperty("user.dir");
-    public final static String excelPath = projectPath + "/Excel";
+    public final static String PROJECT_PATH = System.getProperty("user.dir");
+    public final static String EXCEL_PATH = PROJECT_PATH + "/Excel";
 
-    protected CellStyle headerSetup(Workbook workbook) {
+    public CellStyle getCellStyle() {
+        return cellStyle;
+    }
+
+    protected CellStyle cellStyle;
+
+    protected void headerSetup(Workbook workbook) {
         Font headerFont = workbook.createFont();
         headerFont.setBold(true);
         headerFont.setFontHeightInPoints((short) 14);
@@ -19,6 +25,6 @@ public class ExcelService {
         CellStyle headerCellStyle = workbook.createCellStyle();
         headerCellStyle.setFont(headerFont);
 
-        return headerCellStyle;
+        this.cellStyle = headerCellStyle;
     }
 }
