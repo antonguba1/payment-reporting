@@ -23,6 +23,7 @@ public class ReadScheduleService {
         paymentScheduleInfo.setInstallmentAmount(scannerUtility.scanDouble());
 
         printInfo("Date of first installment: (dd-MM-yyyy)");
+
         String dateString = scannerUtility.scanString();
         paymentScheduleInfo.setFirstDueDate(DateUtility.toDate(dateString));
 

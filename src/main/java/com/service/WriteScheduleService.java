@@ -16,7 +16,7 @@ import java.util.List;
 public class WriteScheduleService extends ExcelService {
 
     private static final String fileName = excelPath + "/Payment_schedule.xlsx";
-    private static final String[] generalHeader = {"Name", "E-mail", "Actual total amount", "Expected total amount", "Number of installments"};
+    private static final String[] generalHeader = {"Name", "E-mail", "Exp. installments", "Actual installments", "Actual total amount", "Expected total amount"};
 
     //Creating many users in one schedule.
     public void generateSchedule(User user) throws IOException, InvalidFormatException {

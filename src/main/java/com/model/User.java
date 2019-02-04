@@ -9,7 +9,6 @@ public class User {
     private String name;
     private String email;
     private PaymentSchedule paymentSchedule;
-    private PaymentScheduleInfo paymentScheduleInfo;
 
 
     public User() {
@@ -26,10 +25,6 @@ public class User {
 
     public PaymentSchedule getPaymentSchedule() {
         return paymentSchedule;
-    }
-
-    public PaymentScheduleInfo getPaymentScheduleInfo() {
-        return paymentScheduleInfo;
     }
 
     public void setPaymentSchedule(PaymentSchedule paymentSchedule) {
