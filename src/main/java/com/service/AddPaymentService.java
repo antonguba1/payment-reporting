@@ -28,20 +28,20 @@ public class AddPaymentService {
     private Row getUserRow(String email) throws IOException, InvalidFormatException {
 
         Row row;
-        int a = 0;
+        int i = 1;
         Path path = Paths.get(ExcelService.EXCEL_PATH + "/Payment_schedule.xlsx");
 
             InputStream inp = new FileInputStream(String.valueOf(path));
             Workbook workbook = WorkbookFactory.create(inp);
             Sheet sheet = workbook.getSheet("User");
 
-            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-                if (email == sheet.getRow(i).getCell(1).getStringCellValue()) {
-                    a = i;
+            for (i = 1; i <= sheet.getLastRowNum(); i++) {
+                if (email.contains(sheet.getRow(i).getCell(1).getStringCellValue())) {
                     break;
                 }
+
             }
-            row = sheet.getRow(a);
+            row = sheet.getRow(i);
 
         return row;
     }
@@ -50,6 +50,6 @@ public class AddPaymentService {
 
         AddPaymentService test = new AddPaymentService();
 
-        System.out.println(test.getUserRow("o@.pl").getRowNum());
+        System.out.println(test.getUserRow("lo@.").getRowNum());
     }
 }
