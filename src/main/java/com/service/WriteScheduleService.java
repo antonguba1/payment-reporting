@@ -24,8 +24,6 @@ import static com.model.InstallmentHeader.*;
 
 public class WriteScheduleService extends ExcelService {
 
-    private static final String FILENAME = EXCEL_PATH + "/Payment_schedule.xlsx";
-
     //Creating many users in one schedule.
     public void generateSchedule(User user) throws IOException, InvalidFormatException {
 

@@ -7,8 +7,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 public class ExcelService {
 
+
     public final static String PROJECT_PATH = System.getProperty("user.dir");
     public final static String EXCEL_PATH = PROJECT_PATH + "/Excel";
+    public static final String FILENAME = EXCEL_PATH + "/Payment_schedule.xlsx";
+
 
     public CellStyle getCellStyle() {
         return cellStyle;
