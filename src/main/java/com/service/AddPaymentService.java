@@ -123,11 +123,12 @@ public class AddPaymentService extends ExcelService {
         Workbook workbook = WorkbookFactory.create(inp);
         Sheet sheet = workbook.getSheet("User");
 
+
         for (i = 1; i <= sheet.getLastRowNum(); i++) {
             if (email.contains(sheet.getRow(i).getCell(1).getStringCellValue())) {
                 break;
             }
-
+            //TODO what if not found email (else).
         }
 
 
