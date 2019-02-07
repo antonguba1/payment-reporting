@@ -1,8 +1,10 @@
 package com.service;
 
 import com.model.AddPaymentInfo;
+
+import com.model.EmailValidation;
 import com.utility.PaymentOperations;
-import com.utility.ScannerUtility;
+import com.model.EmailValidation.*;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -16,15 +18,11 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 public class AddPaymentService extends PaymentOperations {
 
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-    private Date date = new Date();
+    EmailValidation emailValidation;
 
 
     public void addPayment() throws IOException, InvalidFormatException {
@@ -55,29 +53,26 @@ public class AddPaymentService extends PaymentOperations {
             if (paymentAmount == row.getCell(5).getNumericCellValue()) {
                 equalPaymentAmount(row, paymentAmount, installmentCount);
 
-
             } else if (paymentAmount > row.getCell(5).getNumericCellValue()) {
                 greaterPaymentAmount(row, paymentAmount);
-
 
             } else if (paymentAmount < row.getCell(5).getNumericCellValue()) {
                 lowerPaymentAmount(row, paymentAmount);
             }
-
-            System.out.println(row.getCell(7).getNumericCellValue());
-
 
             FileOutputStream fileOut = new FileOutputStream(FILENAME);
             workbook.write(fileOut);
             fileOut.close();
 
             workbook.close();
+
         } else {
             System.out.println("File not exist");
         }
     }
 
 }
+
 
 
 

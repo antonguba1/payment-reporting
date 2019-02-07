@@ -27,6 +27,7 @@ public class EmailValidation {
         }
     }
 
+    //Checking for creating schedule
     public boolean isEmailExist(String email) throws IOException, InvalidFormatException {
         List<String> emailList = emailCollector();
         if (emailList == null) {
@@ -39,6 +40,22 @@ public class EmailValidation {
                 }
             }
             return true;
+        }
+    }
+
+    //Checking for addPayment()
+    public boolean isEmailExist2(String email) throws IOException, InvalidFormatException {
+        List<String> emailList = emailCollector();
+        if (emailList == null) {
+            return true;
+        } else {
+            for (String element : emailList) {
+                if (element.equals(email)) {
+                    return true;
+                }
+            }
+            System.out.println("User not found. Enter e-mail again.");
+            return false;
         }
     }
 

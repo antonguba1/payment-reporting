@@ -17,6 +17,9 @@ import static com.service.ExcelService.EXCEL_PATH;
 
 public class AddPaymentInfo {
 
+    private EmailValidation emailValidation = new EmailValidation();
+
+
     public AddPaymentInfo() {
 
     }
@@ -43,13 +46,15 @@ public class AddPaymentInfo {
         return i;
     }
 
-    public String getUserMail() {
+    public String getUserMail() throws IOException, InvalidFormatException {
 
         String email;
         ScannerUtility scannerUtility = new ScannerUtility();
 
-        System.out.println("Write user e-mail:");
-        email = scannerUtility.scanString();
+        do {
+            System.out.println("Write user e-mail:");
+            email = scannerUtility.scanString();
+        } while (!emailValidation.validateEmail(email) || !emailValidation.isEmailExist2(email));
 
         return email;
     }
