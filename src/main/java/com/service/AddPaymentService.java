@@ -19,10 +19,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static com.model.GeneralHeader.*;
+import static com.model.InstallmentHeader.*;
 
 public class AddPaymentService extends PaymentOperations {
 
-    EmailValidation emailValidation;
+
 
 
     public void addPayment() throws IOException, InvalidFormatException {
@@ -36,9 +38,8 @@ public class AddPaymentService extends PaymentOperations {
         Path path = Paths.get(FILENAME);
 
         String email = addPaymentInfo.getUserMail();
-        double paymentAmount = addPaymentInfo.getPaymentAmount();
         int rowNumber = addPaymentInfo.getUserRow(email);
-
+        double paymentAmount = addPaymentInfo.getPaymentAmount();
 
         if (Files.exists(path)) {
             InputStream inp = new FileInputStream(FILENAME);
@@ -47,16 +48,16 @@ public class AddPaymentService extends PaymentOperations {
 
             Row row = sheet.getRow(rowNumber);
 
-            installmentCount = (int) row.getCell(3)
+            installmentCount = (int) row.getCell(ACTUAL_INSTALLMENT_NUMBER.ordinal())
                     .getNumericCellValue();
 
-            if (paymentAmount == row.getCell(5).getNumericCellValue()) {
+            if (paymentAmount == row.getCell(EXPECTED_AMOUNT.ordinal()).getNumericCellValue()) {
                 equalPaymentAmount(row, paymentAmount, installmentCount);
 
-            } else if (paymentAmount > row.getCell(5).getNumericCellValue()) {
+            } else if (paymentAmount > row.getCell(EXPECTED_AMOUNT.ordinal()).getNumericCellValue()) {
                 greaterPaymentAmount(row, paymentAmount);
 
-            } else if (paymentAmount < row.getCell(5).getNumericCellValue()) {
+            } else if (paymentAmount < row.getCell(EXPECTED_AMOUNT.ordinal()).getNumericCellValue()) {
                 lowerPaymentAmount(row, paymentAmount);
             }
 
@@ -67,7 +68,7 @@ public class AddPaymentService extends PaymentOperations {
             workbook.close();
 
         } else {
-            System.out.println("File not exist");
+            System.out.println("File not exist.");
         }
     }
 
