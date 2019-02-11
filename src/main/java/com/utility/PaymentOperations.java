@@ -2,6 +2,7 @@ package com.utility;
 
 import com.service.ExcelService;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,7 +23,8 @@ public class PaymentOperations extends ExcelService {
     }
 
 
-    public void lowerPaymentAmount(Row row, double paymentAmount) {
+    public void lowerPaymentAmount(Sheet sheet, int rowNumber, double paymentAmount) {
+        Row row = sheet.getRow(rowNumber);
         double expectedAmount = row.getCell(9)
                 .getNumericCellValue();
 
@@ -41,7 +43,9 @@ public class PaymentOperations extends ExcelService {
 
     }
 
-    public void equalPaymentAmount(Row row, double paymentAmount, int installmentCount) {
+    public void equalPaymentAmount(Sheet sheet, int rowNumber, double paymentAmount, int installmentCount) {
+        Row row = sheet.getRow(rowNumber);
+
         row.createCell(ACTUAL_DATE.ordinal())
                 .setCellValue(dateFormat.format(date));
 
@@ -52,7 +56,8 @@ public class PaymentOperations extends ExcelService {
                 .setCellValue(installmentCount += 1);
     }
 
-    public void greaterPaymentAmount(Row row, double paymentAmount) {
+    public void greaterPaymentAmount(Sheet sheet, int rowNumber, double paymentAmount) {
+        Row row = sheet.getRow(rowNumber);
         double expectedAmount = row.getCell(9)
                 .getNumericCellValue();
 

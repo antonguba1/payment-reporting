@@ -52,13 +52,13 @@ public class AddPaymentService extends PaymentOperations {
                     .getNumericCellValue();
 
             if (paymentAmount == row.getCell(EXPECTED_AMOUNT.ordinal()).getNumericCellValue()) {
-                equalPaymentAmount(row, paymentAmount, installmentCount);
+                equalPaymentAmount(sheet, rowNumber, paymentAmount, installmentCount);
 
             } else if (paymentAmount > row.getCell(EXPECTED_AMOUNT.ordinal()).getNumericCellValue()) {
-                greaterPaymentAmount(row, paymentAmount);
+                greaterPaymentAmount(sheet, rowNumber, paymentAmount);
 
             } else if (paymentAmount < row.getCell(EXPECTED_AMOUNT.ordinal()).getNumericCellValue()) {
-                lowerPaymentAmount(row, paymentAmount);
+                lowerPaymentAmount(sheet, rowNumber, paymentAmount);
             }
 
             FileOutputStream fileOut = new FileOutputStream(FILENAME);

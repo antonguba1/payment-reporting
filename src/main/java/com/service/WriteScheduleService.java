@@ -136,6 +136,7 @@ public class WriteScheduleService extends ExcelService {
 
     private void addInstallmentData(Sheet sheet, List<Installment> installmentList) {
         Row row = sheet.getRow((sheet.getLastRowNum()));
+
         int installmentCellIndex = InstallmentHeader.values().length;
         for (Installment installment : installmentList) {
             row.createCell(installmentCellIndex)
