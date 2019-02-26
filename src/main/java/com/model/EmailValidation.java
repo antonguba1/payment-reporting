@@ -47,7 +47,7 @@ public class EmailValidation {
     public boolean isEmailExist2(String email) throws IOException, InvalidFormatException {
         List<String> emailList = emailCollector();
         if (emailList == null) {
-            return true;
+            return false;
         } else {
             for (String element : emailList) {
                 if (element.equals(email)) {

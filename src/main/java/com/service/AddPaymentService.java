@@ -1,75 +1,101 @@
 package com.service;
 
-import com.model.AddPaymentInfo;
-
-import com.model.EmailValidation;
+import com.model.GeneralHeader;
+import com.model.Installment;
+import com.model.InstallmentHeader;
+import com.model.User;
 import com.utility.PaymentOperations;
-import com.model.EmailValidation.*;
+import com.utility.ScannerUtility;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import java.util.List;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import static com.model.GeneralHeader.*;
-import static com.model.InstallmentHeader.*;
 
 public class AddPaymentService extends PaymentOperations {
 
 
+    private ReadExcelService readExcelService;
+    private WriteScheduleService writeScheduleService;
 
 
-    public void addPayment() throws IOException, InvalidFormatException {
+    public AddPaymentService(){
+        readExcelService = new ReadExcelService();
+        writeScheduleService = new WriteScheduleService();
+    }
 
-        AddPaymentInfo addPaymentInfo = new AddPaymentInfo();
+    public void addPayment() throws Exception {
 
-        Files.createDirectories(Paths.get(EXCEL_PATH));
+        //zeskanowac maila od uzytkownika
+        ScannerUtility scannerUtility = new ScannerUtility();
 
-        int installmentCount;
+        String email = readExcelService.getUserMail();
 
-        Path path = Paths.get(FILENAME);
+        //wyrzucic obiekt usera
+        User user = readExcelService.getUserByEmail(email);
 
-        String email = addPaymentInfo.getUserMail();
-        int rowNumber = addPaymentInfo.getUserRow(email);
-        double paymentAmount = addPaymentInfo.getPaymentAmount();
 
-        if (Files.exists(path)) {
-            InputStream inp = new FileInputStream(FILENAME);
-            Workbook workbook = WorkbookFactory.create(inp);
-            Sheet sheet = workbook.getSheet("User");
+        //zeskanowac hajs od uzytkownika
+        System.out.println("Type payment amount: ");
+        double paymentAmount = scannerUtility.scanDouble();
 
-            Row row = sheet.getRow(rowNumber);
 
-            installmentCount = (int) row.getCell(ACTUAL_INSTALLMENT_NUMBER.ordinal())
-                    .getNumericCellValue();
+        //dodac ten hajs dodac do usera wyciagnietego metoda <- oddzielna metoda/serwis
+        addPaymentToUser(user, paymentAmount);
 
-            if (paymentAmount == row.getCell(EXPECTED_AMOUNT.ordinal()).getNumericCellValue()) {
-                equalPaymentAmount(sheet, rowNumber, paymentAmount, installmentCount);
+        //gotowy user do zapisu
 
-            } else if (paymentAmount > row.getCell(EXPECTED_AMOUNT.ordinal()).getNumericCellValue()) {
-                greaterPaymentAmount(sheet, rowNumber, paymentAmount);
+        //uzyj WriteJakisSerwis do update user w excelu
 
-            } else if (paymentAmount < row.getCell(EXPECTED_AMOUNT.ordinal()).getNumericCellValue()) {
-                lowerPaymentAmount(sheet, rowNumber, paymentAmount);
+        writeScheduleService.updateSchedule(user);
+
+
+
+    }
+
+    //nowa metoda przyjmaca user i  kwote do zaplaty
+
+    private void addPaymentToUser(User user, Double paymentAmount) throws IOException, InvalidFormatException {
+
+        List<Installment> installments = user.getPaymentSchedule().getInstallmentList();
+
+        //posortuj installemnty po dacie, teraz ufamy excelowi ze ma raty po kolei
+
+        for (int i = 0; i < installments.size(); i++) {
+
+            if(paymentAmount == 0.0) {
+                return;
             }
 
-            FileOutputStream fileOut = new FileOutputStream(FILENAME);
-            workbook.write(fileOut);
-            fileOut.close();
+            Installment installment = installments.get(i);
+            double expectedAmount = installment.getExpectedAmount();
+            double actualAmount = installment.getActualAmount();
 
-            workbook.close();
+            if (actualAmount < expectedAmount) {
+                double rest = expectedAmount - actualAmount;
 
-        } else {
-            System.out.println("File not exist.");
+                if (paymentAmount > rest) {
+                    actualAmount = actualAmount + rest;
+                    paymentAmount = paymentAmount - rest;
+                    installment.setActualAmount(actualAmount);
+                }else {
+                    actualAmount = actualAmount + paymentAmount;
+                    paymentAmount = 0.0;
+                    installment.setActualAmount(actualAmount);
+                }
+            }
+
         }
+
+        if (paymentAmount > 0) {
+            System.out.println("Przeplaciles " + paymentAmount + " zl");
+        }
+
+
+    }
+
+    private int getColNum(InstallmentHeader enumValue) {
+        return enumValue.ordinal() + GeneralHeader.values().length;
     }
 
 }

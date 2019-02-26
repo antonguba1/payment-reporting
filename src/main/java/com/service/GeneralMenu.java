@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class GeneralMenu {
 
-    public static void runProgram() throws IOException, InvalidFormatException {
+    public static void runProgram() throws Exception {
         ScannerUtility scannerUtility = new ScannerUtility();
         int choice;
 

@@ -61,6 +61,43 @@ public class WriteScheduleService extends ExcelService {
         }
     }
 
+    public void updateSchedule(User user) throws IOException, InvalidFormatException {
+
+        int userRow = ExcelService.getUserRow(user.getEmail());
+
+        //Path path = Paths.get(FILENAME);
+        InputStream inp = new FileInputStream(FILENAME);
+        Workbook workbook = WorkbookFactory.create(inp);
+        Sheet sheet = workbook.getSheet("User");
+
+        Row row = sheet.getRow(userRow);
+
+        row.createCell(ACTUAL_INSTALLMENT_NUMBER.ordinal())
+                .setCellValue(user.getPaymentSchedule().getActualInstallment());
+
+        row.createCell(ACTUAL_TOTAL_AMOUNT.ordinal())
+                .setCellValue(user.getPaymentSchedule().getActualTotalAmount());
+
+        List<Installment> installmentList = user.getPaymentSchedule().getInstallmentList();
+
+        for (int i = 0; i < installmentList.size(); i++) {
+            Installment installment = installmentList.get(i);
+            double actualAmount = installment.getActualAmount();
+
+            System.out.println(installment.getActualAmount());
+
+            row.createCell(ACTUAL_AMOUNT.getCellNo() + (i * 4))
+                    .setCellValue(actualAmount);
+        }
+
+        FileOutputStream fileOut = new FileOutputStream(FILENAME);
+        workbook.write(fileOut);
+        fileOut.close();
+
+        workbook.close();
+
+    }
+
     private void autosizeColumns(Sheet sheet) {
         for (int i = 0; i < GeneralHeader.values().length; i++) {
             sheet.autoSizeColumn(i);
@@ -87,6 +124,7 @@ public class WriteScheduleService extends ExcelService {
 
     private void addInstallmentHeader(Sheet sheet, User user) {
 
+        int startedCell = GeneralHeader.values().length;
         int j = user.getPaymentSchedule().getInstallmentList().size();
         int columnsPerInstallment = InstallmentHeader.values().length;
         String[] paymentHeader = new String[columnsPerInstallment * j];
@@ -102,8 +140,8 @@ public class WriteScheduleService extends ExcelService {
 
         Row headerRow = sheet.getRow(0);
         //TODO why not to fill Cell immediately instead of filling paymentHeader
-        for (int i = 0; i < columnsPerInstallment * j; i++) {
-            Cell cell = headerRow.createCell(i + columnsPerInstallment);
+        for (int i = 0; i < columnsPerInstallment + startedCell + 2; i++) {
+            Cell cell = headerRow.createCell(startedCell + i);
             cell.setCellValue(paymentHeader[i]);
             cell.setCellStyle(cellStyle);
             sheet.autoSizeColumn(i);
@@ -137,7 +175,7 @@ public class WriteScheduleService extends ExcelService {
     private void addInstallmentData(Sheet sheet, List<Installment> installmentList) {
         Row row = sheet.getRow((sheet.getLastRowNum()));
 
-        int installmentCellIndex = InstallmentHeader.values().length;
+        int installmentCellIndex = GeneralHeader.values().length;
         for (Installment installment : installmentList) {
             row.createCell(installmentCellIndex)
                     .setCellValue(DateUtility.toString(installment.getDueDate()));

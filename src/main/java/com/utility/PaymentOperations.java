@@ -25,7 +25,7 @@ public class PaymentOperations extends ExcelService {
 
     public void lowerPaymentAmount(Sheet sheet, int rowNumber, double paymentAmount) {
         Row row = sheet.getRow(rowNumber);
-        double expectedAmount = row.getCell(9)
+        double expectedAmount = row.getCell(EXPECTED_AMOUNT.ordinal())
                 .getNumericCellValue();
 
         row.createCell(ACTUAL_DATE.ordinal())

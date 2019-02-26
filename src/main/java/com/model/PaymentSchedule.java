@@ -7,6 +7,7 @@ import java.util.List;
 public class PaymentSchedule {
 
     private PaymentScheduleInfo paymentScheduleInfo;
+    private int actualInstallment;
     private double actualTotalAmount;
     private double expectedTotalAmount;
     private List<Installment> installmentList = new ArrayList<>();
@@ -28,6 +29,10 @@ public class PaymentSchedule {
         return paymentScheduleInfo;
     }
 
+    public int getActualInstallment() {
+        return actualInstallment;
+    }
+
     public double getExpectedTotalAmount() {
         return expectedTotalAmount;
     }
@@ -41,21 +46,9 @@ public class PaymentSchedule {
         return sum;
     }
 
-    public double getArrearOfPayment() {
-        Date actualDate = new Date();
-        double actualAmount = 0;
-        double expectedAmount = 0;
-
-        for (Installment installment : installmentList) {
-            if (installment.getDueDate().before(actualDate)) {
-                actualAmount += installment.getActualAmount();
-                expectedAmount += installment.getExpectedAmount();
-            }
-        }
-
-        return expectedAmount - actualAmount;
+    public void setActualInstallment(int actualInstallment) {
+        this.actualInstallment = actualInstallment;
     }
-
 
     public void setActualTotalAmount(double actualTotalAmount) {
         this.actualTotalAmount = actualTotalAmount;
@@ -67,5 +60,15 @@ public class PaymentSchedule {
 
     public void setInstallmentList(List<Installment> installmentList) {
         this.installmentList = installmentList;
+    }
+
+    @Override
+    public String toString() {
+        return "PaymentSchedule{" +
+                "paymentScheduleInfo=" + paymentScheduleInfo +
+                ", actualTotalAmount=" + actualTotalAmount +
+                ", expectedTotalAmount=" + expectedTotalAmount +
+                ", installmentList=" + installmentList +
+                '}';
     }
 }

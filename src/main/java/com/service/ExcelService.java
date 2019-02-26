@@ -1,9 +1,13 @@
 package com.service;
 
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.*;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ExcelService {
 
@@ -30,4 +34,27 @@ public class ExcelService {
 
         this.cellStyle = headerCellStyle;
     }
+
+    public static int getUserRow(String email) throws IOException, InvalidFormatException {
+
+        Row row;
+        int i = 1;
+        Path path = Paths.get(EXCEL_PATH + "/Payment_schedule.xlsx");
+
+        InputStream inp = new FileInputStream(String.valueOf(path));
+        Workbook workbook = WorkbookFactory.create(inp);
+        Sheet sheet = workbook.getSheet("User");
+
+
+        for (i = 1; i <= sheet.getLastRowNum(); i++) {
+            if (email.contains(sheet.getRow(i).getCell(1).getStringCellValue())) {
+                break;
+            }
+            //TODO what if not found email (else).
+        }
+
+
+        return i;
+    }
+
 }
